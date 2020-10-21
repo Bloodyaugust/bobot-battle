@@ -1,11 +1,88 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://lib/redux/main.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://scripts/classes/Player.gd" type="Script" id=3]
+[ext_resource path="res://scripts/controllers/ActionUIController.gd" type="Script" id=4]
+[ext_resource path="res://sprites/player.png" type="Texture" id=5]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 532, 261 )
-texture = ExtResource( 2 )
+[node name="ActionUI" type="CanvasLayer" parent="."]
+script = ExtResource( 4 )
+
+[node name="MarginContainer" type="MarginContainer" parent="ActionUI"]
+anchor_left = 0.2
+anchor_top = 0.8
+anchor_right = 0.8
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="ActionUI/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 604.0
+margin_bottom = 110.0
+
+[node name="ActionButtonContainer" type="HBoxContainer" parent="ActionUI/MarginContainer/CenterContainer"]
+margin_left = 139.0
+margin_top = 18.0
+margin_right = 455.0
+margin_bottom = 82.0
+custom_constants/separation = 20
+
+[node name="Move" type="TextureButton" parent="ActionUI/MarginContainer/CenterContainer/ActionButtonContainer"]
+margin_right = 64.0
+margin_bottom = 64.0
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 2 )
+texture_disabled = ExtResource( 2 )
+texture_focused = ExtResource( 2 )
+
+[node name="RotateRight" type="TextureButton" parent="ActionUI/MarginContainer/CenterContainer/ActionButtonContainer"]
+margin_left = 84.0
+margin_right = 148.0
+margin_bottom = 64.0
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 2 )
+texture_disabled = ExtResource( 2 )
+texture_focused = ExtResource( 2 )
+
+[node name="RotateLeft" type="TextureButton" parent="ActionUI/MarginContainer/CenterContainer/ActionButtonContainer"]
+margin_left = 168.0
+margin_right = 232.0
+margin_bottom = 64.0
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 2 )
+texture_disabled = ExtResource( 2 )
+texture_focused = ExtResource( 2 )
+
+[node name="Fire" type="TextureButton" parent="ActionUI/MarginContainer/CenterContainer/ActionButtonContainer"]
+margin_left = 252.0
+margin_right = 316.0
+margin_bottom = 64.0
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 2 )
+texture_hover = ExtResource( 2 )
+texture_disabled = ExtResource( 2 )
+texture_focused = ExtResource( 2 )
+
+[node name="Player" type="Node2D" parent="." groups=[
+"player",
+]]
+position = Vector2( 25, 25 )
+script = ExtResource( 3 )
+is_local_player = true
+
+[node name="Sprite" type="Sprite" parent="Player"]
+texture = ExtResource( 5 )

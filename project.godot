@@ -9,19 +9,61 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Resource",
+"class": "CtxFRef1",
+"language": "GDScript",
+"path": "res://lib/goldenGadget/CtxFRef1.gd"
+}, {
+"base": "Resource",
+"class": "CtxFRef2",
+"language": "GDScript",
+"path": "res://lib/goldenGadget/CtxFRef2.gd"
+}, {
 "base": "Node2D",
 "class": "FloatingText",
 "language": "GDScript",
 "path": "res://scripts/classes/FloatingText.gd"
 }, {
+"base": "Resource",
+"class": "FlowF",
+"language": "GDScript",
+"path": "res://lib/goldenGadget/FlowF.gd"
+}, {
+"base": "Resource",
+"class": "GGArray",
+"language": "GDScript",
+"path": "res://lib/goldenGadget/GGArray.gd"
+}, {
+"base": "Resource",
+"class": "GGInternal",
+"language": "GDScript",
+"path": "res://lib/goldenGadget/GGInternal.gd"
+}, {
+"base": "Node",
+"class": "GGTests",
+"language": "GDScript",
+"path": "res://lib/goldenGadget/GGTests.gd"
+}, {
 "base": "Node",
 "class": "LevelLoader",
 "language": "GDScript",
 "path": "res://scripts/classes/LevelLoader.gd"
+}, {
+"base": "Node2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://scripts/classes/Player.gd"
 } ]
 _global_script_class_icons={
+"CtxFRef1": "",
+"CtxFRef2": "",
 "FloatingText": "",
-"LevelLoader": ""
+"FlowF": "",
+"GGArray": "",
+"GGInternal": "",
+"GGTests": "",
+"LevelLoader": "",
+"Player": ""
 }
 
 [application]
@@ -34,6 +76,9 @@ config/icon="res://icon.png"
 
 Functional="*res://lib/util/Functional.gd"
 GDUtil="*res://lib/util/GDUtil.gd"
+GameStates="*res://scripts/constants/GameStates.gd"
+PlayerActions="*res://scripts/constants/PlayerActions.gd"
+GG="*res://lib/goldenGadget/GoldenGadget.gd"
 store="*res://lib/redux/store.gd"
 action_types="*res://lib/redux/action_types.gd"
 actions="*res://lib/redux/actions.gd"

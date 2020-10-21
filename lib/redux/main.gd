@@ -7,6 +7,7 @@ func _ready() -> void:
 		[{"name": "_on_store_changed", "instance": self}]
 	)
 	store.dispatch(actions.game_set_start_time(OS.get_unix_time()))
+	store.dispatch(actions.game_set_state(GameStates.WAITING))
 	store.dispatch(actions.player_set_health(100))
 
 

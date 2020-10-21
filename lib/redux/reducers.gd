@@ -6,6 +6,10 @@ func game(state, action) -> Dictionary:
 		var next_state = store.shallow_copy(state)
 		next_state["start_time"] = action["time"]
 		return next_state
+	if action["type"] == action_types.GAME_SET_STATE:
+		var next_state = store.shallow_copy(state)
+		next_state["state"] = action["state"]
+		return next_state
 	return state
 
 

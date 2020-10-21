@@ -1,6 +1,9 @@
 extends Node
 
-var _state = {"player": {"health": 100, "position": Vector2(0, 0)}}
+var _state = {
+	"game": {"state": GameStates.WAITING, "start_time": 0},
+	"player": {"health": 100, "position": Vector2(0, 0)}
+}
 var _reducers = {}
 
 signal state_changed(name, state)
