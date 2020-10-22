@@ -12,7 +12,7 @@ var _action_stack: Array = []
 func add_action(action: String) -> bool:
 	if _action_stack.size() < PlayerActions.MAX_ACTIONS_QUEUED:
 		_action_stack.append(action)
-		store.dispatch(actions.player_set_action_queue(_action_stack))
+		store.dispatch(actions.player_set_action_queue(_action_stack, id))
 		return true
 	return false
 
@@ -22,7 +22,10 @@ func process_next_action() -> bool:
 
 	match _action:
 		PlayerActions.MOVE:
-			var _new_position: Vector2 = position + Vector2(32, 0).rotated(rotation)
+			var _new_position: Vector2 = (
+				position
+				+ Vector2(PlayerActions.MOVE_DISTANCE, 0).rotated(rotation)
+			)
 			if _map.map_rect.has_point(_new_position):
 				position = _new_position
 		PlayerActions.ROTATE_RIGHT:
@@ -32,7 +35,7 @@ func process_next_action() -> bool:
 		# PlayerActions.FIRE:
 		# 	rotation_degrees += 90
 
-	store.dispatch(actions.player_set_action_queue(_action_stack))
+	store.dispatch(actions.player_set_action_queue(_action_stack, id))
 
 	return _action_stack.size() > 0
 

@@ -16,7 +16,7 @@ func game(state, action) -> Dictionary:
 func player(state, action) -> Dictionary:
 	if action["type"] == action_types.PLAYER_SET_ACTION_QUEUE:
 		var next_state = store.shallow_copy(state)
-		next_state["action_queue"] = action["action_queue"]
+		next_state["action_queue"][action["id"]] = action["action_queue"]
 		return next_state
 	if action["type"] == action_types.PLAYER_SET_HEALTH:
 		var next_state = store.shallow_copy(state)

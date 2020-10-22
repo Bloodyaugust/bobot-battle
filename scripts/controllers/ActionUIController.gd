@@ -38,10 +38,13 @@ func _on_store_changed(name, state):
 		"player":
 			GDUtil.free_children(_queued_actions_vbox)
 
-			for _action in state.action_queue:
+			for _action in state.action_queue[_local_player.id]:
 				_queued_actions_vbox.add_child(action_component.instance())
 
-			_ready_button.disabled = state.action_queue.size() < PlayerActions.MAX_ACTIONS_QUEUED
+			_ready_button.disabled = (
+				state.action_queue[_local_player.id].size()
+				< PlayerActions.MAX_ACTIONS_QUEUED
+			)
 
 
 # Called when the node enters the scene tree for the first time.

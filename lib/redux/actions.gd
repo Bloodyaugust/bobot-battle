@@ -11,8 +11,8 @@ func game_set_state(state) -> Dictionary:
 	return {"type": action_types.GAME_SET_STATE, "state": state}
 
 
-func player_set_action_queue(action_queue) -> Dictionary:
-	return {"type": action_types.PLAYER_SET_ACTION_QUEUE, "action_queue": action_queue}
+func player_set_action_queue(action_queue, id) -> Dictionary:
+	return {"type": action_types.PLAYER_SET_ACTION_QUEUE, "action_queue": action_queue, "id": id}
 
 
 func player_set_health(health) -> Dictionary:

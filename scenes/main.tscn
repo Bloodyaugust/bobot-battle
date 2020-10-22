@@ -51,7 +51,7 @@ texture_hover = ExtResource( 2 )
 texture_disabled = ExtResource( 2 )
 texture_focused = ExtResource( 2 )
 
-[node name="RotateRight" type="TextureButton" parent="ActionUI/EnqueueActionsContainer/CenterContainer/ActionButtonContainer"]
+[node name="RotateLeft" type="TextureButton" parent="ActionUI/EnqueueActionsContainer/CenterContainer/ActionButtonContainer"]
 margin_left = 84.0
 margin_right = 148.0
 margin_bottom = 64.0
@@ -61,7 +61,7 @@ texture_hover = ExtResource( 2 )
 texture_disabled = ExtResource( 2 )
 texture_focused = ExtResource( 2 )
 
-[node name="RotateLeft" type="TextureButton" parent="ActionUI/EnqueueActionsContainer/CenterContainer/ActionButtonContainer"]
+[node name="RotateRight" type="TextureButton" parent="ActionUI/EnqueueActionsContainer/CenterContainer/ActionButtonContainer"]
 margin_left = 168.0
 margin_right = 232.0
 margin_bottom = 64.0
