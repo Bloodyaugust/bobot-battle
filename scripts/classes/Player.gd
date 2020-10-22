@@ -72,7 +72,7 @@ func _move(to: Vector2):
 func _on_store_changed(name, state):
 	match name:
 		"game":
-			if state["state"] == GameStates.WAITING && !_player_added:
+			if state["state"] == GameStates.WAITING && ! _player_added:
 				store.dispatch(actions.player_add_player(id))
 				_player_added = true
 

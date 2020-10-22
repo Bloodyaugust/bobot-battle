@@ -194,3 +194,4 @@ is_local_player = false
 
 [node name="GameController" type="Node" parent="."]
 script = ExtResource( 9 )
+player_slots = 3

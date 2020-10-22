@@ -1,5 +1,7 @@
 extends Node
 
+export var player_slots: int
+
 
 func _resolve_player_actions():
 	var _players: Array = get_tree().get_nodes_in_group("player")
@@ -28,6 +30,12 @@ func _unresolved_player_actions() -> bool:
 func _on_store_changed(name, state):
 	match name:
 		"player":
+			if store.state()["game"]["state"] == GameStates.WAITING:
+				if state.keys().size() == player_slots:
+					store.dispatch(actions.game_set_state(GameStates.CHOOSING))
+				else:
+					return
+
 			for _player_key in state.keys():
 				if ! state[_player_key]["ready"]:
 					return
