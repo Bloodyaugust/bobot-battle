@@ -2,7 +2,7 @@ extends Node
 
 var _state = {
 	"game": {"state": GameStates.WAITING, "start_time": 0},
-	"player": {"health": 100, "position": Vector2(0, 0)}
+	"player": {"health": 100, "position": Vector2(0, 0), "action_queue": []}
 }
 var _reducers = {}
 

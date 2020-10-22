@@ -2,6 +2,9 @@
 
 A template for Godot projects.
 
+To format:
+``gdformat `find . -wholename './scripts/*.gd'` ``
+
 ## Dockerfile
 
 To build:
