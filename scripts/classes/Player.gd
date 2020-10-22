@@ -55,6 +55,9 @@ func _move(to: Vector2):
 				+ Vector2(PlayerActions.MOVE_DISTANCE, 0).rotated(rotation)
 			)
 			if _map.map_rect.has_point(_new_player_position):
+				for _player_nested in _players:
+					if _player_nested.get_rect().has_point(_new_player_position):
+						return
 				_player.position = _new_player_position
 			else:
 				return
