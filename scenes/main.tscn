@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://lib/redux/main.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -8,6 +8,9 @@
 [ext_resource path="res://scripts/behaviors/load_tiled_custom_properties.gd" type="Script" id=6]
 [ext_resource path="res://scripts/classes/Map.gd" type="Script" id=7]
 [ext_resource path="res://ui_components/Action.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scripts/controllers/GameController.gd" type="Script" id=9]
+[ext_resource path="res://behaviors/Dummy AI.tscn" type="PackedScene" id=10]
+[ext_resource path="res://resources/themes/kenney/kenney.tres" type="Theme" id=11]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -21,6 +24,7 @@ anchor_left = 0.2
 anchor_top = 0.8
 anchor_right = 0.8
 anchor_bottom = 1.0
+theme = ExtResource( 11 )
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
@@ -86,6 +90,8 @@ anchor_left = 0.8
 anchor_top = 0.2
 anchor_right = 1.0
 anchor_bottom = 0.8
+grow_vertical = 2
+theme = ExtResource( 11 )
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
@@ -98,22 +104,22 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 194.0
-margin_bottom = 416.0
+margin_bottom = 472.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ActionUI/QueuedActionsContainer/CenterContainer"]
-margin_left = 34.0
-margin_right = 150.0
-margin_bottom = 406.0
+margin_left = 17.0
+margin_right = 167.0
+margin_bottom = 462.0
 custom_constants/separation = 20
 alignment = 1
 
 [node name="CenterContainer2" type="CenterContainer" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer"]
-margin_right = 116.0
+margin_right = 150.0
 margin_bottom = 316.0
 
 [node name="QueuedActions" type="VBoxContainer" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer2"]
-margin_left = 26.0
-margin_right = 90.0
+margin_left = 43.0
+margin_right = 107.0
 margin_bottom = 316.0
 custom_constants/separation = 20
 alignment = 1
@@ -140,15 +146,27 @@ texture = ExtResource( 2 )
 
 [node name="CenterContainer" type="CenterContainer" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer"]
 margin_top = 336.0
-margin_right = 116.0
-margin_bottom = 406.0
+margin_right = 150.638
+margin_bottom = 418.736
 
 [node name="Ready" type="Button" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer"]
-margin_right = 116.0
-margin_bottom = 70.0
+margin_right = 150.638
+margin_bottom = 82.7363
+custom_constants/hseparation = 10
 disabled = true
 text = "Ready"
 icon = ExtResource( 2 )
+
+[node name="CenterContainer3" type="CenterContainer" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer"]
+margin_top = 438.0
+margin_right = 150.0
+margin_bottom = 462.0
+
+[node name="GameState" type="Label" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer3"]
+margin_left = 53.0
+margin_right = 97.0
+margin_bottom = 24.0
+text = "test"
 
 [node name="Map" type="Node2D" parent="."]
 script = ExtResource( 7 )
@@ -165,7 +183,14 @@ position = Vector2( 48, 48 )
 id = 1
 is_local_player = false
 
+[node name="Dummy AI" parent="Player2" instance=ExtResource( 10 )]
+
 [node name="Player3" parent="." instance=ExtResource( 3 )]
 position = Vector2( 48, 80 )
 id = 2
 is_local_player = false
+
+[node name="Dummy AI" parent="Player3" instance=ExtResource( 10 )]
+
+[node name="GameController" type="Node" parent="."]
+script = ExtResource( 9 )

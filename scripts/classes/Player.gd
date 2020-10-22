@@ -7,6 +7,7 @@ export var is_local_player: bool
 onready var _map: Node2D = $"../Map"
 
 var _action_stack: Array = []
+var _player_added: bool = false
 
 
 func add_action(action: String) -> bool:
@@ -22,6 +23,9 @@ func get_rect() -> Rect2:
 
 
 func process_next_action() -> bool:
+	if _action_stack.size() == 0:
+		return false
+
 	var _action = _action_stack.pop_front()
 
 	match _action:
@@ -65,5 +69,13 @@ func _move(to: Vector2):
 	position = to
 
 
+func _on_store_changed(name, state):
+	match name:
+		"game":
+			if state["state"] == GameStates.WAITING && !_player_added:
+				store.dispatch(actions.player_add_player(id))
+				_player_added = true
+
+
 func _ready():
-	pass
+	store.subscribe(self, "_on_store_changed")
