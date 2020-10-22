@@ -17,6 +17,10 @@ func add_action(action: String) -> bool:
 	return false
 
 
+func get_rect() -> Rect2:
+	return Rect2(position - Vector2(16, 16), Vector2(32, 32))
+
+
 func process_next_action() -> bool:
 	var _action = _action_stack.pop_front()
 
@@ -26,8 +30,7 @@ func process_next_action() -> bool:
 				position
 				+ Vector2(PlayerActions.MOVE_DISTANCE, 0).rotated(rotation)
 			)
-			if _map.map_rect.has_point(_new_position):
-				position = _new_position
+			_move(_new_position)
 		PlayerActions.ROTATE_RIGHT:
 			rotation_degrees += 90
 		PlayerActions.ROTATE_LEFT:
@@ -38,6 +41,25 @@ func process_next_action() -> bool:
 	store.dispatch(actions.player_set_action_queue(_action_stack, id))
 
 	return _action_stack.size() > 0
+
+
+func _move(to: Vector2):
+	if ! _map.map_rect.has_point(to):
+		return
+
+	var _players: Array = get_tree().get_nodes_in_group("player")
+	for _player in _players:
+		if _player.get_rect().has_point(to):
+			var _new_player_position: Vector2 = (
+				_player.position
+				+ Vector2(PlayerActions.MOVE_DISTANCE, 0).rotated(rotation)
+			)
+			if _map.map_rect.has_point(_new_player_position):
+				_player.position = _new_player_position
+			else:
+				return
+
+	position = to
 
 
 func _ready():

@@ -159,3 +159,8 @@ script = ExtResource( 6 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 16, 16 )
+
+[node name="Player2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 48, 48 )
+id = 1
+is_local_player = false
