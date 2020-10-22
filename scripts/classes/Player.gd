@@ -44,7 +44,7 @@ func process_next_action() -> bool:
 
 
 func _move(to: Vector2):
-	if ! _map.map_rect.has_point(to):
+	if ! _map.valid_for_move(to):
 		return
 
 	var _players: Array = get_tree().get_nodes_in_group("player")
@@ -54,7 +54,7 @@ func _move(to: Vector2):
 				_player.position
 				+ Vector2(PlayerActions.MOVE_DISTANCE, 0).rotated(rotation)
 			)
-			if _map.map_rect.has_point(_new_player_position):
+			if _map.valid_for_move(_new_player_position):
 				for _player_nested in _players:
 					if _player_nested.get_rect().has_point(_new_player_position):
 						return
