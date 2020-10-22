@@ -1,8 +1,6 @@
 extends Node2D
 class_name Player
 
-const MAX_ACTIONS_QUEUED: int = 4
-
 export var id: int
 export var is_local_player: bool
 
@@ -12,7 +10,7 @@ var _action_stack: Array = []
 
 
 func add_action(action: String) -> bool:
-	if _action_stack.size() < MAX_ACTIONS_QUEUED:
+	if _action_stack.size() < PlayerActions.MAX_ACTIONS_QUEUED:
 		_action_stack.append(action)
 		store.dispatch(actions.player_set_action_queue(_action_stack))
 		return true

@@ -146,6 +146,7 @@ margin_bottom = 406.0
 [node name="Ready" type="Button" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer"]
 margin_right = 116.0
 margin_bottom = 70.0
+disabled = true
 text = "Ready"
 icon = ExtResource( 2 )
 
