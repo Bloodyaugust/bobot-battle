@@ -13,6 +13,20 @@ onready var _size: int = _map.get_meta("width")
 onready var _hazards: Array = _hazards_root.get_children()
 
 
+func resolve_hazard_actions(player: Player):
+	for _hazard in _hazards:
+		var _hazard_type = _hazard.get_meta("scene")
+
+		match _hazard_type:
+			"zap":
+				if _hazard.get_meta("rect").has_point(player.position):
+					store.dispatch(
+						actions.player_set_health(
+							store.state()["player"][player.id]["health"] - 1, player.id
+						)
+					)
+
+
 func valid_for_move(move_to: Vector2) -> bool:
 	if ! map_rect.has_point(move_to):
 		return false
@@ -24,13 +38,7 @@ func valid_for_move(move_to: Vector2) -> bool:
 		print(_hazard.position.x)
 		print(_hazard.region_rect.size.x)
 
-		var _hazard_rect = Rect2(
-			Vector2(
-				_hazard.position.x - _hazard.region_rect.size.x,
-				_hazard.position.y - _hazard.region_rect.size.y
-			),
-			Vector2(PlayerActions.MOVE_DISTANCE, PlayerActions.MOVE_DISTANCE)
-		)
+		var _hazard_rect = _hazard.get_meta("rect")
 
 		if _hazard_rect.has_point(move_to):
 			return false
@@ -44,3 +52,14 @@ func _ready():
 	for _hazard in _hazards:
 		_hazard.centered = true
 		_hazard.position += Vector2(_hazard.region_rect.size.x / 2, -_hazard.region_rect.size.y / 2)
+
+		_hazard.set_meta(
+			"rect",
+			Rect2(
+				Vector2(
+					_hazard.position.x - _hazard.region_rect.size.x,
+					_hazard.position.y - _hazard.region_rect.size.y
+				),
+				Vector2(PlayerActions.MOVE_DISTANCE, PlayerActions.MOVE_DISTANCE)
+			)
+		)

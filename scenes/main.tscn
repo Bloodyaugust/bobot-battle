@@ -170,6 +170,7 @@ text = "test"
 
 [node name="Map" type="Node2D" parent="."]
 script = ExtResource( 7 )
+map_rect = null
 
 [node name="test-small" parent="Map" instance=ExtResource( 5 )]
 position = Vector2( 0, 16 )

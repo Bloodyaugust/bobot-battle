@@ -5,8 +5,10 @@ export var id: int
 export var is_local_player: bool
 
 onready var _map: Node2D = $"../Map"
+onready var _sprite: Sprite = $"./Sprite"
 
 var _action_stack: Array = []
+var _auto_ready: bool = false
 var _player_added: bool = false
 
 
@@ -20,6 +22,10 @@ func add_action(action: String) -> bool:
 
 func get_rect() -> Rect2:
 	return Rect2(position - Vector2(16, 16), Vector2(32, 32))
+
+
+func get_state() -> Dictionary:
+	return store.state()["player"][id]
 
 
 func process_next_action() -> bool:
@@ -75,6 +81,16 @@ func _on_store_changed(name, state):
 			if state["state"] == GameStates.WAITING && ! _player_added:
 				store.dispatch(actions.player_add_player(id))
 				_player_added = true
+
+			_auto_ready = false
+
+		"player":
+			if state.has(id) && state[id]["health"] <= 0:
+				_sprite.modulate = Color(0.5, 0.5, 0.5)
+
+				if store.state()["game"]["state"] == GameStates.CHOOSING && ! _auto_ready:
+					_auto_ready = true
+					store.dispatch(actions.player_set_ready(true, id))
 
 
 func _ready():

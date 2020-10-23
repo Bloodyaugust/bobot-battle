@@ -2,6 +2,19 @@ extends Node
 
 export var player_slots: int
 
+onready var _map: Node = $"../Map"
+
+
+func _is_game_over() -> bool:
+	var _dead_players: int = 0
+	var _players: Array = get_tree().get_nodes_in_group("player")
+
+	for _player in _players:
+		if _player.get_state()["health"] <= 0:
+			_dead_players += 1
+
+	return _dead_players >= _players.size() - 1
+
 
 func _resolve_player_actions():
 	var _players: Array = get_tree().get_nodes_in_group("player")
@@ -10,6 +23,11 @@ func _resolve_player_actions():
 		for _player in _players:
 			yield(get_tree().create_timer(0.15), "timeout")
 			_player.process_next_action()
+			_map.resolve_hazard_actions(_player)
+
+			if _is_game_over():
+				store.dispatch(actions.game_set_state(GameStates.OVER))
+				return
 
 	for _player in _players:
 		store.dispatch(actions.player_set_ready(false, _player.id))
@@ -43,6 +61,13 @@ func _on_store_changed(name, state):
 			if store.state()["game"]["state"] != GameStates.RESOLVING:
 				store.dispatch(actions.game_set_state(GameStates.RESOLVING))
 				_resolve_player_actions()
+
+		"game":
+			if state["state"] == GameStates.OVER:
+				var _players: Array = get_tree().get_nodes_in_group("player")
+
+				for _player in _players:
+					_player.queue_free()
 
 
 func _ready():
