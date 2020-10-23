@@ -1,9 +1,9 @@
 # bobot-battle
 
-A template for Godot projects.
+A turn-based, arena-combat, multiplayer game.
 
 To format:
-``gdformat `find . -wholename './scripts/*.gd'` ``
+`` gdformat `find . -wholename './scripts/*.gd'`  ``
 
 ## Dockerfile
 
