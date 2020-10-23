@@ -4,12 +4,11 @@ class_name Player
 export var id: int
 export var is_local_player: bool
 
-onready var _map: Node2D = $"../Map"
+onready var _map: Node2D = $"../../Map"
 onready var _sprite: Sprite = $"./Sprite"
 
 var _action_stack: Array = []
 var _auto_ready: bool = false
-var _player_added: bool = false
 
 
 func add_action(action: String) -> bool:
@@ -78,10 +77,6 @@ func _move(to: Vector2):
 func _on_store_changed(name, state):
 	match name:
 		"game":
-			if state["state"] == GameStates.WAITING && ! _player_added:
-				store.dispatch(actions.player_add_player(id))
-				_player_added = true
-
 			_auto_ready = false
 
 		"player":

@@ -1,8 +1,11 @@
 extends Node
 
-var _state = {"game": {"state": GameStates.WAITING, "start_time": 0}, "player": {}}
+var _state = {"client": {}, "game": {"state": GameStates.WAITING, "start_time": 0}, "player": {}}
 var _reducers = {}
 
+signal game_initializing
+signal game_initialized
+signal map_loaded
 signal state_changed(name, state)
 
 

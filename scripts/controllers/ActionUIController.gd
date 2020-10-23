@@ -23,16 +23,25 @@ func _set_buttons_disabled(disabled: bool):
 	_rotate_right_button.disabled = disabled
 
 
+func _on_game_initialized():
+	_local_player = G(get_tree().get_nodes_in_group("player")).find(
+		"player => player.is_local_player"
+	)
+
+
 func _on_move_button_pressed():
-	_local_player.add_action(PlayerActions.MOVE)
+	if _local_player:
+		_local_player.add_action(PlayerActions.MOVE)
 
 
 func _on_rotate_right_button_pressed():
-	_local_player.add_action(PlayerActions.ROTATE_RIGHT)
+	if _local_player:
+		_local_player.add_action(PlayerActions.ROTATE_RIGHT)
 
 
 func _on_rotate_left_button_pressed():
-	_local_player.add_action(PlayerActions.ROTATE_LEFT)
+	if _local_player:
+		_local_player.add_action(PlayerActions.ROTATE_LEFT)
 
 
 func _on_ready_button_pressed():
@@ -41,21 +50,28 @@ func _on_ready_button_pressed():
 
 func _on_store_changed(name, state):
 	match name:
+		"client":
+			if state["state"] == ClientConstants.MENU:
+				offset.y = 2000
+			else:
+				offset.y = 0
+
 		"player":
-			GDUtil.free_children(_queued_actions_vbox)
+			if _local_player:
+				GDUtil.free_children(_queued_actions_vbox)
 
-			for _action in state[_local_player.id].action_queue:
-				_queued_actions_vbox.add_child(action_component.instance())
+				for _action in state[_local_player.id].action_queue:
+					_queued_actions_vbox.add_child(action_component.instance())
 
-			_ready_button.disabled = (
-				(state[_local_player.id].action_queue.size() < PlayerActions.MAX_ACTIONS_QUEUED)
-				|| (
-					state[_local_player.id].ready
-					|| store.state()["game"]["state"] == GameStates.RESOLVING
+				_ready_button.disabled = (
+					(state[_local_player.id].action_queue.size() < PlayerActions.MAX_ACTIONS_QUEUED)
+					|| (
+						state[_local_player.id].ready
+						|| store.state()["game"]["state"] == GameStates.RESOLVING
+					)
 				)
-			)
 
-			_set_buttons_disabled(store.state()["game"]["state"] == GameStates.RESOLVING)
+				_set_buttons_disabled(store.state()["game"]["state"] == GameStates.RESOLVING)
 
 		"game":
 			_game_state_label.text = state["state"]
@@ -63,15 +79,14 @@ func _on_store_changed(name, state):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_local_player = G(get_tree().get_nodes_in_group("player")).find(
-		"player => player.is_local_player"
-	)
+	GDUtil.free_children(_queued_actions_vbox)
 
 	_move_button.connect("pressed", self, "_on_move_button_pressed")
 	_rotate_right_button.connect("pressed", self, "_on_rotate_right_button_pressed")
 	_rotate_left_button.connect("pressed", self, "_on_rotate_left_button_pressed")
 	_ready_button.connect("pressed", self, "_on_ready_button_pressed")
 
+	store.connect("game_initialized", self, "_on_game_initialized")
 	store.subscribe(self, "_on_store_changed")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

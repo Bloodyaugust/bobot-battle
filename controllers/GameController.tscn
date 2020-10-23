@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/controllers/GameController.gd" type="Script" id=1]
+[ext_resource path="res://actors/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://behaviors/Dummy AI.tscn" type="PackedScene" id=3]
+
+[node name="GameController" type="Node"]
+script = ExtResource( 1 )
+dummy_ai_scene = ExtResource( 3 )
+player_scene = ExtResource( 2 )

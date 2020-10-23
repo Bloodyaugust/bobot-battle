@@ -1,6 +1,18 @@
 extends Node
 
 
+func client(state, action) -> Dictionary:
+	if action["type"] == action_types.CLIENT_SET_MAP:
+		var next_state = store.shallow_copy(state)
+		next_state["map"] = action["map"]
+		return next_state
+	if action["type"] == action_types.CLIENT_SET_STATE:
+		var next_state = store.shallow_copy(state)
+		next_state["state"] = action["state"]
+		return next_state
+	return state
+
+
 func game(state, action) -> Dictionary:
 	if action["type"] == action_types.GAME_SET_START_TIME:
 		var next_state = store.shallow_copy(state)

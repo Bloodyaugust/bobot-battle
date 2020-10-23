@@ -1,8 +1,11 @@
 extends Node
 
-export var player_slots: int
+export var dummy_ai_scene: PackedScene
+export var player_scene: PackedScene
 
 onready var _map: Node = $"../Map"
+
+var _player_slots: int
 
 
 func _is_game_over() -> bool:
@@ -49,7 +52,7 @@ func _on_store_changed(name, state):
 	match name:
 		"player":
 			if store.state()["game"]["state"] == GameStates.WAITING:
-				if state.keys().size() == player_slots:
+				if state.keys().size() == _player_slots:
 					store.dispatch(actions.game_set_state(GameStates.CHOOSING))
 				else:
 					return
@@ -71,4 +74,29 @@ func _on_store_changed(name, state):
 
 
 func _ready():
+	var _players_node = Node.new()
+
+	_players_node.name = "Players"
+
+	_player_slots = _map.spawn_points.size()
+
+	get_parent().add_child(_players_node)
+
+	var _player_id: int = 0
+	for _spawn_point in _map.spawn_points:
+		var _player = player_scene.instance()
+
+		_player.id = _player_id
+		_player.is_local_player = _player_id == 0
+		_player.position = _spawn_point.position
+
+		if _player_id != 0:
+			_player.add_child(dummy_ai_scene.instance())
+
+		_players_node.add_child(_player)
+
+		store.dispatch(actions.player_add_player(_player_id))
+		_player_id += 1
+
 	store.subscribe(self, "_on_store_changed")
+	store.emit_signal("game_initialized")

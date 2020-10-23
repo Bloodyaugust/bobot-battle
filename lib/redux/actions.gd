@@ -3,6 +3,14 @@ extends Node
 signal ui_click
 
 
+func client_set_state(state: String) -> Dictionary:
+	return {"type": action_types.CLIENT_SET_STATE, "state": state}
+
+
+func client_set_map(map: String) -> Dictionary:
+	return {"type": action_types.CLIENT_SET_MAP, "map": map}
+
+
 func game_set_start_time(time: int) -> Dictionary:
 	return {"type": action_types.GAME_SET_START_TIME, "time": time}
 

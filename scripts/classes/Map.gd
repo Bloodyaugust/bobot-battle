@@ -2,15 +2,16 @@ extends Node2D
 class_name Map
 
 export var map_rect: Rect2
+export var spawn_points: Array
 
-onready var _map: Node = get_child(0)
+var _map: Node
 
-onready var _grid_size: int = _map.get_meta("Grid X")
-onready var _hazards_root: Node = _map.find_node("hazards")
-onready var _tile_size: int = _map.get_meta("tilewidth")
-onready var _size: int = _map.get_meta("width")
+var _grid_size: int
+var _hazards_root: Node
+var _tile_size: int
+var _size: int
 
-onready var _hazards: Array = _hazards_root.get_children()
+var _hazards: Array
 
 
 func resolve_hazard_actions(player: Player):
@@ -46,8 +47,20 @@ func valid_for_move(move_to: Vector2) -> bool:
 	return true
 
 
-func _ready():
+func _initialize():
+	_map = get_child(0)
+
+	_map.position += Vector2(0, 16)
+
+	_grid_size = _map.get_meta("Grid X")
+	_hazards_root = _map.find_node("hazards")
+	_tile_size = _map.get_meta("tilewidth")
+	_size = _map.get_meta("width")
+
+	_hazards = _hazards_root.get_children()
+
 	map_rect = Rect2(Vector2(0, 0), Vector2(_tile_size * _size, _tile_size * _size))
+	spawn_points = _map.find_node("spawns").get_children()
 
 	for _hazard in _hazards:
 		_hazard.centered = true
@@ -63,3 +76,13 @@ func _ready():
 				Vector2(PlayerActions.MOVE_DISTANCE, PlayerActions.MOVE_DISTANCE)
 			)
 		)
+
+	store.emit_signal("map_loaded")
+
+
+func _ready():
+	add_child(
+		load("res://tilesets/maps/{map}.tmx".format({"map": store.state()["client"]["map"]})).instance()
+	)
+
+	_initialize()
