@@ -9,14 +9,19 @@ export remotesync var action_order: String = "1"
 onready var _map: Node = $"../Map"
 
 master var _completed_simulations: Array
+master var _completed_simulation_strings: Array
 var _players_node: Node
 var _player_names_node: Node
 var _player_slots: int
 
-remote func simulation_completed(id: int):
+remote func simulation_completed(id: int, round_string: String):
 	var _players = _players_node.get_children()
 
 	_completed_simulations.append(id)
+	_completed_simulation_strings.append(round_string)
+
+	for _round_string in _completed_simulation_strings:
+		assert(_round_string == _completed_simulation_strings[0], _completed_simulation_strings)
 
 	if _completed_simulations.size() == _players.size():
 		if _is_game_over():
@@ -24,6 +29,7 @@ remote func simulation_completed(id: int):
 		else:
 			store.remotesync_dispatch(actions.game_set_state(GameStates.CHOOSING))
 		_completed_simulations.clear()
+		_completed_simulation_strings.clear()
 		
 
 remotesync func spawn_player(id: int):
@@ -62,20 +68,25 @@ func _is_game_over() -> bool:
 func _resolve_player_actions():
 	var _current_action: int = 0
 	var _players: Array = get_tree().get_nodes_in_group("player")
+	var _resolved_actions: String = ""
 
 	while _current_action < PlayerActions.MAX_ACTIONS_QUEUED:
 		for _player_id in action_order.split(","):
 			yield(get_tree().create_timer(0.15), "timeout")
 			var _player = _players_node.get_node(str(_player_id))
-			_player.process_action(_current_action)
-			_map.resolve_hazard_actions(_player)
+			_resolved_actions += "Player {id}, action {current_action}, ".format({"current_action": _current_action, "id": _player_id})
+			_resolved_actions += _player.process_action(_current_action)
+			_resolved_actions += ", "
+			_resolved_actions += _map.resolve_hazard_actions(_player)
+			_resolved_actions += "; "
 
 		_current_action += 1
 
+	# print(_resolved_actions)
 	if get_tree().is_network_server():
-		simulation_completed(1)
+		simulation_completed(1, _resolved_actions)
 	else:
-		rpc_id(1, "simulation_completed", get_tree().get_network_unique_id())
+		rpc_id(1, "simulation_completed", get_tree().get_network_unique_id(), _resolved_actions)
 
 
 

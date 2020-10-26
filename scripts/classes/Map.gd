@@ -14,7 +14,9 @@ var _size: int
 var _hazards: Array
 
 
-func resolve_hazard_actions(player: Player):
+func resolve_hazard_actions(player: Player) -> String:
+	var _hazard_string: String = ""
+
 	for _hazard in _hazards:
 		var _hazard_type = _hazard.get_meta("scene")
 
@@ -22,6 +24,9 @@ func resolve_hazard_actions(player: Player):
 			"zap":
 				if _hazard.get_meta("rect").has_point(player.position):
 					player.damage(1)
+					_hazard_string += "ZAP {id},".format({"id": player.id})
+
+	return _hazard_string
 
 
 func valid_for_move(move_to: Vector2) -> bool:

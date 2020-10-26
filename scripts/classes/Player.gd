@@ -3,7 +3,7 @@ class_name Player
 
 signal action_stack_changed
 
-export remotesync var health: int = 2
+export var health: int = 2
 export var id: int
 export var is_local_player: bool
 export remotesync var ready: bool
@@ -27,9 +27,6 @@ func add_action(action: String) -> bool:
 func damage(amount: int):
 	health -= amount
 
-	if is_local_player:
-		rset("health", health)
-
 
 func get_action_stack() -> Array:
 	return _action_stack
@@ -39,7 +36,9 @@ func get_rect() -> Rect2:
 	return Rect2(position - Vector2(16, 16), Vector2(32, 32))
 
 
-func process_action(index: int):
+func process_action(index: int) -> String:
+	var _action_string: String = ""
+
 	if ! _dead:
 		var _action = _action_stack[index]
 
@@ -50,15 +49,21 @@ func process_action(index: int):
 					+ Vector2(PlayerActions.MOVE_DISTANCE, 0).rotated(rotation)
 				)
 				_move(_new_position)
+				_action_string = "{action}{rotation}".format({"action": _action, "rotation": rotation_degrees})
 			PlayerActions.ROTATE_RIGHT:
 				rotation_degrees += 90
+				_action_string = "{action}{rotation}".format({"action": _action, "rotation": rotation_degrees})
 			PlayerActions.ROTATE_LEFT:
 				rotation_degrees -= 90
+				_action_string = "{action}{rotation}".format({"action": _action, "rotation": rotation_degrees})
 			# PlayerActions.FIRE:
 			# 	rotation_degrees += 90
-
+	else:
+		_action_string = "DEAD"
 	if is_local_player:
 		emit_signal("action_stack_changed")
+
+	return _action_string
 
 
 func set_ready(is_ready: bool):
