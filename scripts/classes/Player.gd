@@ -3,6 +3,7 @@ class_name Player
 
 signal action_stack_changed
 
+export var dead: bool = false
 export var health: int = 2
 export var id: int
 export var is_local_player: bool
@@ -12,7 +13,6 @@ onready var _map: Node2D = $"../../Map"
 onready var _sprite: Sprite = $"./Sprite"
 
 remotesync var _action_stack: Array = []
-var _dead: bool = false
 
 func add_action(action: String) -> bool:
 	if _action_stack.size() < PlayerActions.MAX_ACTIONS_QUEUED:
@@ -27,6 +27,14 @@ func add_action(action: String) -> bool:
 func damage(amount: int):
 	health -= amount
 
+	if health <= 0 && ! dead:
+		dead = true
+
+		if is_local_player:
+			_sprite.modulate = Color(0.116791, 0.347656, 0)
+		else:
+			_sprite.modulate = Color(0.5, 0.5, 0.5)
+
 
 func get_action_stack() -> Array:
 	return _action_stack
@@ -39,7 +47,7 @@ func get_rect() -> Rect2:
 func process_action(index: int) -> String:
 	var _action_string: String = ""
 
-	if ! _dead:
+	if ! dead:
 		var _action = _action_stack[index]
 
 		match _action:
@@ -99,16 +107,11 @@ func _on_store_changed(name, state):
 			if state.state == GameStates.CHOOSING:
 				rset("_action_stack", [])
 				emit_signal("action_stack_changed")
-			if state.state == GameStates.CHOOSING && _dead:
+			if state.state == GameStates.CHOOSING && dead:
 				rset("ready", true)
-
-
-func _process(_delta):
-	if ! _dead && health <= 0:
-		_dead = true
-		_sprite.modulate = Color(0.5, 0.5, 0.5)
 
 
 func _ready():
 	if is_local_player:
 		store.subscribe(self, "_on_store_changed")
+		_sprite.modulate = Color(0.521569, 0.956863, 0.486275)

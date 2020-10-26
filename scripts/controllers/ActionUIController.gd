@@ -17,6 +17,13 @@ func G(arr) -> GGArray:
 	return GG.arr(arr)
 
 
+func _is_local_player_dead() -> bool:
+	if _local_player == null:
+		return false
+
+	return _local_player.dead
+
+
 func _set_buttons_disabled(disabled: bool):
 	_move_button.disabled = disabled
 	_rotate_left_button.disabled = disabled
@@ -75,7 +82,7 @@ func _on_store_changed(name, state):
 
 		"game":
 			_game_state_label.text = state["state"]
-			_set_buttons_disabled(state["state"] == GameStates.RESOLVING)
+			_set_buttons_disabled(state["state"] == GameStates.RESOLVING || _is_local_player_dead())
 
 			if state["state"] == GameStates.RESOLVING:
 				_local_player.set_ready(false)
