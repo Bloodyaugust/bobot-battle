@@ -1,55 +1,69 @@
 extends Node2D
 class_name Player
 
+signal action_stack_changed
+
+export remotesync var health: int = 2
 export var id: int
 export var is_local_player: bool
+export remotesync var ready: bool
 
 onready var _map: Node2D = $"../../Map"
 onready var _sprite: Sprite = $"./Sprite"
 
-var _action_stack: Array = []
-var _auto_ready: bool = false
-
+remotesync var _action_stack: Array = []
+var _dead: bool = false
 
 func add_action(action: String) -> bool:
 	if _action_stack.size() < PlayerActions.MAX_ACTIONS_QUEUED:
 		_action_stack.append(action)
-		store.dispatch(actions.player_set_action_queue(_action_stack, id))
+		if is_local_player:
+			rset("_action_stack", _action_stack)
+			emit_signal("action_stack_changed")
 		return true
 	return false
+
+
+func damage(amount: int):
+	health -= amount
+
+	if is_local_player:
+		rset("health", health)
+
+
+func get_action_stack() -> Array:
+	return _action_stack
 
 
 func get_rect() -> Rect2:
 	return Rect2(position - Vector2(16, 16), Vector2(32, 32))
 
 
-func get_state() -> Dictionary:
-	return store.state()["player"][id]
+func process_action(index: int):
+	var _action = _action_stack[index]
+
+	if ! _dead:
+		match _action:
+			PlayerActions.MOVE:
+				var _new_position: Vector2 = (
+					position
+					+ Vector2(PlayerActions.MOVE_DISTANCE, 0).rotated(rotation)
+				)
+				_move(_new_position)
+			PlayerActions.ROTATE_RIGHT:
+				rotation_degrees += 90
+			PlayerActions.ROTATE_LEFT:
+				rotation_degrees -= 90
+			# PlayerActions.FIRE:
+			# 	rotation_degrees += 90
+
+	if is_local_player:
+		emit_signal("action_stack_changed")
 
 
-func process_next_action() -> bool:
-	if _action_stack.size() == 0:
-		return false
-
-	var _action = _action_stack.pop_front()
-
-	match _action:
-		PlayerActions.MOVE:
-			var _new_position: Vector2 = (
-				position
-				+ Vector2(PlayerActions.MOVE_DISTANCE, 0).rotated(rotation)
-			)
-			_move(_new_position)
-		PlayerActions.ROTATE_RIGHT:
-			rotation_degrees += 90
-		PlayerActions.ROTATE_LEFT:
-			rotation_degrees -= 90
-		# PlayerActions.FIRE:
-		# 	rotation_degrees += 90
-
-	store.dispatch(actions.player_set_action_queue(_action_stack, id))
-
-	return _action_stack.size() > 0
+func set_ready(is_ready: bool):
+	if is_local_player:
+		rset("ready", is_ready)
 
 
 func _move(to: Vector2):
@@ -77,16 +91,19 @@ func _move(to: Vector2):
 func _on_store_changed(name, state):
 	match name:
 		"game":
-			_auto_ready = false
+			if state.state == GameStates.CHOOSING:
+				rset("_action_stack", [])
+				emit_signal("action_stack_changed")
+			if state.state == GameStates.CHOOSING && _dead:
+				rset("ready", true)
 
-		"player":
-			if state.has(id) && state[id]["health"] <= 0:
-				_sprite.modulate = Color(0.5, 0.5, 0.5)
 
-				if store.state()["game"]["state"] == GameStates.CHOOSING && ! _auto_ready:
-					_auto_ready = true
-					store.dispatch(actions.player_set_ready(true, id))
+func _process(_delta):
+	if ! _dead && health <= 0:
+		_dead = true
+		_sprite.modulate = Color(0.5, 0.5, 0.5)
 
 
 func _ready():
-	store.subscribe(self, "_on_store_changed")
+	if is_local_player:
+		store.subscribe(self, "_on_store_changed")

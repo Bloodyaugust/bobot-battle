@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://resources/themes/kenney/kenney.tres" type="Theme" id=1]
+[ext_resource path="res://scripts/behaviors/player_follow.gd" type="Script" id=2]
+
+[node name="Player Name" type="Node2D"]
+z_index = 2
+z_as_relative = false
+script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="."]
+margin_top = -13.0
+grow_horizontal = 2
+theme = ExtResource( 1 )
+text = "test"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

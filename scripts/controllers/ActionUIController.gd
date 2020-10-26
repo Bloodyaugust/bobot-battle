@@ -23,10 +23,26 @@ func _set_buttons_disabled(disabled: bool):
 	_rotate_right_button.disabled = disabled
 
 
-func _on_game_initialized():
+func _on_local_player_action_stack_changed():
+	var _local_player_action_stack = _local_player.get_action_stack()
+
+	GDUtil.free_children(_queued_actions_vbox)
+
+	for _action in _local_player_action_stack:
+		_queued_actions_vbox.add_child(action_component.instance())
+
+	_ready_button.disabled = (
+		(_local_player_action_stack.size() < PlayerActions.MAX_ACTIONS_QUEUED)
+		|| (_local_player.ready || store.state()["game"]["state"] == GameStates.RESOLVING)
+	)
+
+
+func _on_local_player_spawned():
 	_local_player = G(get_tree().get_nodes_in_group("player")).find(
 		"player => player.is_local_player"
 	)
+
+	_local_player.connect("action_stack_changed", self, "_on_local_player_action_stack_changed")
 
 
 func _on_move_button_pressed():
@@ -45,7 +61,8 @@ func _on_rotate_left_button_pressed():
 
 
 func _on_ready_button_pressed():
-	store.dispatch(actions.player_set_ready(true, _local_player.id))
+	_local_player.set_ready(true)
+	_ready_button.disabled = true
 
 
 func _on_store_changed(name, state):
@@ -56,25 +73,12 @@ func _on_store_changed(name, state):
 			else:
 				offset.y = 0
 
-		"player":
-			if _local_player:
-				GDUtil.free_children(_queued_actions_vbox)
-
-				for _action in state[_local_player.id].action_queue:
-					_queued_actions_vbox.add_child(action_component.instance())
-
-				_ready_button.disabled = (
-					(state[_local_player.id].action_queue.size() < PlayerActions.MAX_ACTIONS_QUEUED)
-					|| (
-						state[_local_player.id].ready
-						|| store.state()["game"]["state"] == GameStates.RESOLVING
-					)
-				)
-
-				_set_buttons_disabled(store.state()["game"]["state"] == GameStates.RESOLVING)
-
 		"game":
 			_game_state_label.text = state["state"]
+			_set_buttons_disabled(state["state"] == GameStates.RESOLVING)
+
+			if state["state"] == GameStates.RESOLVING:
+				_local_player.set_ready(false)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -86,7 +90,7 @@ func _ready():
 	_rotate_left_button.connect("pressed", self, "_on_rotate_left_button_pressed")
 	_ready_button.connect("pressed", self, "_on_ready_button_pressed")
 
-	store.connect("game_initialized", self, "_on_game_initialized")
+	store.connect("local_player_spawned", self, "_on_local_player_spawned")
 	store.subscribe(self, "_on_store_changed")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

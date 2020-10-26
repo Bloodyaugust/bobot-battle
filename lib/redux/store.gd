@@ -5,6 +5,7 @@ var _reducers = {}
 
 signal game_initializing
 signal game_initialized
+signal local_player_spawned
 signal map_loaded
 signal state_changed(name, state)
 
@@ -32,7 +33,28 @@ func unsubscribe(target, method) -> void:
 	disconnect("state_changed", target, method)
 
 
-func dispatch(action) -> void:
+func remotesync_dispatch(action) -> void:
+	if get_tree().is_network_server():
+		rpc("dispatch", action)
+
+
+func remote_dispatch_id(action, id) -> void:
+	if get_tree().is_network_server():
+		rpc_id(id, "dispatch_remote", action)
+
+
+remotesync func dispatch(action) -> void:
+	for name in _reducers.keys():
+		var state = _state[name]
+		var next_state = _reducers[name].call_func(state, action)
+		if next_state == null:
+			_state.erase(name)
+			emit_signal("state_changed", name, null)
+		elif state != next_state:
+			_state[name] = next_state
+			emit_signal("state_changed", name, next_state)
+
+remote func dispatch_remote(action) -> void:
 	for name in _reducers.keys():
 		var state = _state[name]
 		var next_state = _reducers[name].call_func(state, action)

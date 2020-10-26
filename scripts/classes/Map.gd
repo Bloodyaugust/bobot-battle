@@ -21,11 +21,7 @@ func resolve_hazard_actions(player: Player):
 		match _hazard_type:
 			"zap":
 				if _hazard.get_meta("rect").has_point(player.position):
-					store.dispatch(
-						actions.player_set_health(
-							store.state()["player"][player.id]["health"] - 1, player.id
-						)
-					)
+					player.damage(1)
 
 
 func valid_for_move(move_to: Vector2) -> bool:
@@ -35,9 +31,6 @@ func valid_for_move(move_to: Vector2) -> bool:
 	for _hazard in _hazards:
 		if _hazard.get_meta("scene") != "wall":
 			continue
-
-		print(_hazard.position.x)
-		print(_hazard.region_rect.size.x)
 
 		var _hazard_rect = _hazard.get_meta("rect")
 

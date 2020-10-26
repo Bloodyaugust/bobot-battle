@@ -24,7 +24,7 @@ func player_add_player(id: int) -> Dictionary:
 		"type": action_types.PLAYER_ADD_PLAYER,
 		"id": id,
 		"player":
-		{"health": 10, "position": Vector2(0, 0), "ready": false, "action_queue": [], "id": id}
+		{"health": 2, "position": Vector2(0, 0), "ready": false, "action_queue": [], "id": id}
 	}
 
 
