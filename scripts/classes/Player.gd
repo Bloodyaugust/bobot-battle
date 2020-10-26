@@ -40,9 +40,9 @@ func get_rect() -> Rect2:
 
 
 func process_action(index: int):
-	var _action = _action_stack[index]
-
 	if ! _dead:
+		var _action = _action_stack[index]
+
 		match _action:
 			PlayerActions.MOVE:
 				var _new_position: Vector2 = (
