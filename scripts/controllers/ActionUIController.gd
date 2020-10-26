@@ -12,6 +12,8 @@ onready var _rotate_left_button: BaseButton = _action_button_container.get_node(
 onready var _ready_button = $"./QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer/Ready"
 
 var _local_player: Player
+var _ready_texture: Texture = preload("res://sprites/ready.png")
+var _waiting_texture: Texture = preload("res://sprites/waiting.png")
 
 
 func G(arr) -> GGArray:
@@ -38,7 +40,11 @@ func _on_local_player_action_stack_changed():
 	GDUtil.free_children(_queued_actions_vbox)
 
 	for _action in _local_player_action_stack:
-		_queued_actions_vbox.add_child(action_component.instance())
+		var _new_action: TextureRect = action_component.instance()
+
+		_new_action.update_texture(_action)
+
+		_queued_actions_vbox.add_child(_new_action)
 
 	_ready_button.disabled = (
 		(_local_player_action_stack.size() < PlayerActions.MAX_ACTIONS_QUEUED)
@@ -77,6 +83,7 @@ func _on_rotate_left_button_pressed():
 func _on_ready_button_pressed():
 	_local_player.set_ready(true)
 	_ready_button.disabled = true
+	_ready_button.icon = _ready_texture
 
 
 func _on_store_changed(name, state):
@@ -93,6 +100,7 @@ func _on_store_changed(name, state):
 
 			if state["state"] == GameStates.RESOLVING:
 				_local_player.set_ready(false)
+				_ready_button.icon = _waiting_texture
 
 
 # Called when the node enters the scene tree for the first time.

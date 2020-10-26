@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://lib/redux/main.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -6,9 +6,14 @@
 [ext_resource path="res://scripts/controllers/ActionUIController.gd" type="Script" id=4]
 [ext_resource path="res://actors/Map.tscn" type="PackedScene" id=5]
 [ext_resource path="res://controllers/NetworkController.tscn" type="PackedScene" id=6]
+[ext_resource path="res://sprites/move_forward.png" type="Texture" id=7]
 [ext_resource path="res://ui_components/Action.tscn" type="PackedScene" id=8]
 [ext_resource path="res://controllers/GameController.tscn" type="PackedScene" id=9]
+[ext_resource path="res://sprites/fire.png" type="Texture" id=10]
 [ext_resource path="res://resources/themes/kenney/kenney.tres" type="Theme" id=11]
+[ext_resource path="res://sprites/rotate_left.png" type="Texture" id=12]
+[ext_resource path="res://sprites/rotate_right.png" type="Texture" id=13]
+[ext_resource path="res://sprites/waiting.png" type="Texture" id=14]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -45,50 +50,42 @@ margin_right = 604.0
 margin_bottom = 110.0
 
 [node name="ActionButtonContainer" type="HBoxContainer" parent="ActionUI/EnqueueActionsContainer/CenterContainer"]
-margin_left = 139.0
-margin_top = 18.0
-margin_right = 455.0
-margin_bottom = 82.0
+margin_left = 127.0
+margin_top = 15.0
+margin_right = 467.0
+margin_bottom = 85.0
 custom_constants/separation = 20
 
-[node name="Move" type="TextureButton" parent="ActionUI/EnqueueActionsContainer/CenterContainer/ActionButtonContainer"]
-margin_right = 64.0
-margin_bottom = 64.0
-texture_normal = ExtResource( 2 )
-texture_pressed = ExtResource( 2 )
-texture_hover = ExtResource( 2 )
-texture_disabled = ExtResource( 2 )
-texture_focused = ExtResource( 2 )
+[node name="Move" type="Button" parent="ActionUI/EnqueueActionsContainer/CenterContainer/ActionButtonContainer"]
+margin_right = 70.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 70, 70 )
+icon = ExtResource( 7 )
+expand_icon = true
 
-[node name="RotateLeft" type="TextureButton" parent="ActionUI/EnqueueActionsContainer/CenterContainer/ActionButtonContainer"]
-margin_left = 84.0
-margin_right = 148.0
-margin_bottom = 64.0
-texture_normal = ExtResource( 2 )
-texture_pressed = ExtResource( 2 )
-texture_hover = ExtResource( 2 )
-texture_disabled = ExtResource( 2 )
-texture_focused = ExtResource( 2 )
+[node name="RotateLeft" type="Button" parent="ActionUI/EnqueueActionsContainer/CenterContainer/ActionButtonContainer"]
+margin_left = 90.0
+margin_right = 160.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 70, 70 )
+icon = ExtResource( 12 )
+expand_icon = true
 
-[node name="RotateRight" type="TextureButton" parent="ActionUI/EnqueueActionsContainer/CenterContainer/ActionButtonContainer"]
-margin_left = 168.0
-margin_right = 232.0
-margin_bottom = 64.0
-texture_normal = ExtResource( 2 )
-texture_pressed = ExtResource( 2 )
-texture_hover = ExtResource( 2 )
-texture_disabled = ExtResource( 2 )
-texture_focused = ExtResource( 2 )
+[node name="RotateRight" type="Button" parent="ActionUI/EnqueueActionsContainer/CenterContainer/ActionButtonContainer"]
+margin_left = 180.0
+margin_right = 250.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 70, 70 )
+icon = ExtResource( 13 )
+expand_icon = true
 
-[node name="Fire" type="TextureButton" parent="ActionUI/EnqueueActionsContainer/CenterContainer/ActionButtonContainer"]
-margin_left = 252.0
-margin_right = 316.0
-margin_bottom = 64.0
-texture_normal = ExtResource( 2 )
-texture_pressed = ExtResource( 2 )
-texture_hover = ExtResource( 2 )
-texture_disabled = ExtResource( 2 )
-texture_focused = ExtResource( 2 )
+[node name="Fire" type="Button" parent="ActionUI/EnqueueActionsContainer/CenterContainer/ActionButtonContainer"]
+margin_left = 270.0
+margin_right = 340.0
+margin_bottom = 70.0
+rect_min_size = Vector2( 70, 70 )
+icon = ExtResource( 10 )
+expand_icon = true
 
 [node name="QueuedActionsContainer" type="MarginContainer" parent="ActionUI"]
 anchor_left = 0.8
@@ -109,67 +106,68 @@ __meta__ = {
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 194.0
-margin_bottom = 472.0
+margin_bottom = 444.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ActionUI/QueuedActionsContainer/CenterContainer"]
-margin_left = 17.0
-margin_right = 167.0
-margin_bottom = 462.0
+margin_left = 24.0
+margin_right = 160.0
+margin_bottom = 434.0
 custom_constants/separation = 20
 alignment = 1
 
 [node name="CenterContainer2" type="CenterContainer" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer"]
-margin_right = 150.0
-margin_bottom = 316.0
+margin_right = 136.0
+margin_bottom = 302.0
 
 [node name="QueuedActions" type="VBoxContainer" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer2"]
-margin_left = 43.0
-margin_right = 107.0
-margin_bottom = 316.0
+margin_left = 36.0
+margin_right = 100.0
+margin_bottom = 302.0
 custom_constants/separation = 20
 alignment = 1
 
 [node name="TextureRect" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer2/QueuedActions" instance=ExtResource( 8 )]
+margin_right = 64.0
 
 [node name="TextureRect2" type="TextureRect" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer2/QueuedActions"]
-margin_top = 84.0
+margin_top = 70.0
 margin_right = 64.0
-margin_bottom = 148.0
+margin_bottom = 134.0
 texture = ExtResource( 2 )
 
 [node name="TextureRect3" type="TextureRect" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer2/QueuedActions"]
-margin_top = 168.0
+margin_top = 154.0
 margin_right = 64.0
-margin_bottom = 232.0
+margin_bottom = 218.0
 texture = ExtResource( 2 )
 
 [node name="TextureRect4" type="TextureRect" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer2/QueuedActions"]
-margin_top = 252.0
+margin_top = 238.0
 margin_right = 64.0
-margin_bottom = 316.0
+margin_bottom = 302.0
 texture = ExtResource( 2 )
 
 [node name="CenterContainer" type="CenterContainer" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer"]
-margin_top = 336.0
-margin_right = 150.638
-margin_bottom = 418.736
+margin_top = 322.0
+margin_right = 136.638
+margin_bottom = 390.736
 
 [node name="Ready" type="Button" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer"]
-margin_right = 150.638
-margin_bottom = 82.7363
+margin_right = 136.638
+margin_bottom = 68.7363
 custom_constants/hseparation = 10
 disabled = true
 text = "Ready"
-icon = ExtResource( 2 )
+icon = ExtResource( 14 )
 
 [node name="CenterContainer3" type="CenterContainer" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer"]
-margin_top = 438.0
-margin_right = 150.0
-margin_bottom = 462.0
+margin_top = 410.0
+margin_right = 136.0
+margin_bottom = 434.0
 
 [node name="GameState" type="Label" parent="ActionUI/QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer3"]
-margin_left = 53.0
-margin_right = 97.0
+margin_left = 46.0
+margin_right = 90.0
 margin_bottom = 24.0
 text = "test"
 

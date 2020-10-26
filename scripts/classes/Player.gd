@@ -9,6 +9,7 @@ export var id: int
 export var is_local_player: bool
 export remotesync var ready: bool
 
+onready var _active_player_indicator: Sprite = $"./ActivePlayerIndicator"
 onready var _map: Node2D = $"../../Map"
 onready var _sprite: Sprite = $"./Sprite"
 
@@ -130,4 +131,5 @@ func _on_store_changed(name, state):
 func _ready():
 	if is_local_player:
 		store.subscribe(self, "_on_store_changed")
+		_active_player_indicator.visible = true
 		_sprite.modulate = Color(0.521569, 0.956863, 0.486275)
