@@ -64,8 +64,8 @@ func process_action(index: int) -> String:
 			PlayerActions.ROTATE_LEFT:
 				rotation_degrees -= 90
 				_action_string = "{action}{rotation}".format({"action": _action, "rotation": rotation_degrees})
-			# PlayerActions.FIRE:
-			# 	rotation_degrees += 90
+			PlayerActions.FIRE:
+				_action_string = _fire()
 	else:
 		_action_string = "DEAD"
 	if is_local_player:
@@ -77,6 +77,22 @@ func process_action(index: int) -> String:
 func set_ready(is_ready: bool):
 	if is_local_player:
 		rset("ready", is_ready)
+
+
+func _fire() -> String:
+	var _fire_string: String = ""
+	var _players: Array = get_tree().get_nodes_in_group("player")
+	var _testing_point: Vector2 = position + Vector2(PlayerActions.MOVE_DISTANCE, 0).rotated(rotation)
+	
+	while _map.valid_for_move(_testing_point):
+		for _player in _players:
+			if _player.get_rect().has_point(_testing_point):
+				_player.damage(1)
+				return "FIRE-{rotation}-HIT{id}".format({"rotation": rotation_degrees, "id": _player.id})
+
+		_testing_point += Vector2(PlayerActions.MOVE_DISTANCE, 0).rotated(rotation)
+
+	return "MISS-{rotation}".format({"rotation": rotation_degrees})
 
 
 func _move(to: Vector2):

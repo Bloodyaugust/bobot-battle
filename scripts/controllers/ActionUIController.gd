@@ -5,6 +5,7 @@ export var action_component: PackedScene
 onready var _action_button_container = $"./EnqueueActionsContainer/CenterContainer/ActionButtonContainer"
 onready var _queued_actions_vbox = $"./QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer2/QueuedActions"
 onready var _game_state_label: Label = $"./QueuedActionsContainer/CenterContainer/VBoxContainer/CenterContainer3/GameState"
+onready var _fire_button: BaseButton = _action_button_container.get_node("./Fire")
 onready var _move_button: BaseButton = _action_button_container.get_node("./Move")
 onready var _rotate_right_button: BaseButton = _action_button_container.get_node("./RotateRight")
 onready var _rotate_left_button: BaseButton = _action_button_container.get_node("./RotateLeft")
@@ -25,6 +26,7 @@ func _is_local_player_dead() -> bool:
 
 
 func _set_buttons_disabled(disabled: bool):
+	_fire_button.disabled = disabled
 	_move_button.disabled = disabled
 	_rotate_left_button.disabled = disabled
 	_rotate_right_button.disabled = disabled
@@ -50,6 +52,11 @@ func _on_local_player_spawned():
 	)
 
 	_local_player.connect("action_stack_changed", self, "_on_local_player_action_stack_changed")
+
+
+func _on_fire_button_pressed():
+	if _local_player:
+		_local_player.add_action(PlayerActions.FIRE)
 
 
 func _on_move_button_pressed():
@@ -92,6 +99,7 @@ func _on_store_changed(name, state):
 func _ready():
 	GDUtil.free_children(_queued_actions_vbox)
 
+	_fire_button.connect("pressed", self, "_on_fire_button_pressed")
 	_move_button.connect("pressed", self, "_on_move_button_pressed")
 	_rotate_right_button.connect("pressed", self, "_on_rotate_right_button_pressed")
 	_rotate_left_button.connect("pressed", self, "_on_rotate_left_button_pressed")
