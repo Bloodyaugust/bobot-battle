@@ -19,7 +19,7 @@ func add_action(action: String) -> bool:
 	if _action_stack.size() < PlayerActions.MAX_ACTIONS_QUEUED:
 		_action_stack.append(action)
 		if is_local_player:
-			rset("_action_stack", _action_stack)
+			rset("_action_stack", _action_stack) # If we are a client, this is not guaranteed to get to all other clients, change to server authoritative
 			emit_signal("action_stack_changed")
 		return true
 	return false
