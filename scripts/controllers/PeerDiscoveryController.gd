@@ -1,6 +1,6 @@
 extends Node
 
-export var host: bool = true
+export var host: bool = false
 
 var _discover_peer: PacketPeerUDP
 var _game_peers: Dictionary
@@ -111,6 +111,10 @@ func _process(_delta):
 			"JOIN":
 				_on_join(_message_json)
 
+			"PUNCH":
+				# Not receiving this from clients on the same network? :hopeful:
+				print("Received punch from peer in lobby: {id}".format({"id": _message_json.peerID}))
+
 	if _started_connection && _discover_peer.get_available_packet_count() > 0:
 		var _message_json = JSON.parse(_discover_peer.get_packet().get_string_from_utf8()).result
 
@@ -120,4 +124,13 @@ func _process(_delta):
 
 			"PUNCH":
 				# Not receiving this from clients on the same network? :hopeful:
-				print("Received punch from peer: {id}".format({"id": _message_json.peerID}))
+				print("Received punch from peer in discover: {id}".format({"id": _message_json.peerID}))
+
+	for _game_peer_id in _game_peers:
+		if _game_peers[_game_peer_id].get_available_packet_count() > 0:
+			var _message_json = JSON.parse(_game_peers[_game_peer_id].get_packet().get_string_from_utf8()).result
+
+			match _message_json.type:
+				"PUNCH":
+					# Not receiving this from clients on the same network? :hopeful:
+					print("Received punch from peer in game_peer: {id}".format({"id": _message_json.peerID}))
