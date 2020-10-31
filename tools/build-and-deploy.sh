@@ -18,13 +18,13 @@ mkdir build/win/
 
 echo "EXPORTING FOR LINUX"
 echo "-----------------------------"
-godot --export-debug "Linux/X11" build/linux/bobot-battle.x86_64 -v
+godot --export "Linux/X11" build/linux/bobot-battle.x86_64 -v
 echo "EXPORTING FOR OSX"
 echo "-----------------------------"
-godot --export-debug "Mac OSX" build/osx/bobot-battle.dmg -v
+godot --export "Mac OSX" build/osx/bobot-battle.dmg -v
 echo "EXPORTING FOR WINDOZE"
 echo "-----------------------------"
-godot --export-debug "Windows Desktop" build/win/bobot-battle.exe -v
+godot --export "Windows Desktop" build/win/bobot-battle.exe -v
 echo "-----------------------------"
 
 echo "CHANGING FILETYPE AND CHMOD EXECUTABLE FOR OSX"
