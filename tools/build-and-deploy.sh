@@ -34,7 +34,7 @@ mv bobot-battle.dmg bobot-battle-osx-alpha.zip
 unzip bobot-battle-osx-alpha.zip
 rm bobot-battle-osx-alpha.zip
 chmod +x bobot-battle.app/Contents/MacOS/bobot-battle
-zip -r bobot-battle-osx-alpha.zip bobot-battle.app
+zip -r "bobot-battle-osx-alpha-${CIRCLE_BUILD_NUM}.zip" bobot-battle.app
 rm -rf bobot-battle.app
 cd ../../
 
@@ -47,14 +47,14 @@ ls -al build/win/
 echo "ZIPPING FOR WINDOZE"
 echo "-----------------------------"
 cd build/win/
-zip -r bobot-battle-win-alpha.zip bobot-battle.exe bobot-battle.pck
+zip -r "bobot-battle-win-alpha-${CIRCLE_BUILD_NUM}.zip" bobot-battle.exe bobot-battle.pck
 rm -r bobot-battle.exe bobot-battle.pck
 cd ../../
 
 echo "ZIPPING FOR LINUX"
 echo "-----------------------------"
 cd build/linux/
-zip -r bobot-battle-linux-alpha.zip bobot-battle.x86_64 bobot-battle.pck
+zip -r "bobot-battle-linux-alpha-${CIRCLE_BUILD_NUM}.zip" bobot-battle.x86_64 bobot-battle.pck
 rm -r bobot-battle.x86_64 bobot-battle.pck
 cd ../../
 
@@ -64,6 +64,6 @@ butler login
 
 echo "Pushing builds with Butler"
 echo "-----------------------------"
-butler push build/linux/ synsugarstudio/bobot-battle:linux-alpha
-butler push build/osx/ synsugarstudio/bobot-battle:osx-alpha
-butler push build/win/ synsugarstudio/bobot-battle:win-alpha
+butler push build/linux/ synsugarstudio/bobot-battle:linux-alpha --userversion "${CIRCLE_BUILD_NUM}"
+butler push build/osx/ synsugarstudio/bobot-battle:osx-alpha --userversion "${CIRCLE_BUILD_NUM}"
+butler push build/win/ synsugarstudio/bobot-battle:win-alpha --userversion "${CIRCLE_BUILD_NUM}"

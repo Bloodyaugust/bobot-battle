@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://lib/redux/main.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -14,7 +14,6 @@
 [ext_resource path="res://sprites/rotate_left.png" type="Texture" id=12]
 [ext_resource path="res://sprites/rotate_right.png" type="Texture" id=13]
 [ext_resource path="res://sprites/waiting.png" type="Texture" id=14]
-[ext_resource path="res://scripts/controllers/PeerDiscoveryController.gd" type="Script" id=15]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -22,10 +21,8 @@ game_controller = ExtResource( 9 )
 map = ExtResource( 5 )
 
 [node name="NetworkController" parent="." instance=ExtResource( 6 )]
+port = 31400
 max_clients = 5
-
-[node name="PeerDiscoveryController" type="Node" parent="."]
-script = ExtResource( 15 )
 
 [node name="ActionUI" type="CanvasLayer" parent="."]
 script = ExtResource( 4 )
