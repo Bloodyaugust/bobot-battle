@@ -3,22 +3,22 @@ extends Node
 signal client_created
 signal server_created
 
-export var ip_address: String
-export var port: int
+# export var ip_address: String
+# export var port: int
 export var max_clients: int
 
 var peer: NetworkedMultiplayerENet
 
 
-func create_client():
+func create_client(address, port):
 	peer = NetworkedMultiplayerENet.new()
 
-	peer.create_client(ip_address, port)
+	peer.create_client(address, port)
 	get_tree().set_network_peer(peer)
 	emit_signal("client_created")
 
 
-func create_server():
+func create_server(port):
 	peer = NetworkedMultiplayerENet.new()
 
 	peer.create_server(port, max_clients)
@@ -35,4 +35,4 @@ func _ready():
 	get_tree().connect("network_peer_connected", self, "_on_network_peer_connected")
 
 	if OS.has_feature("Server"):
-		create_server()
+		create_server(31400)

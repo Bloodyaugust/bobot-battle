@@ -6,17 +6,20 @@ onready var _join_button: Button = $"./MarginContainer/CenterContainer/VBoxConta
 onready var _play_button: Button = $"./MarginContainer/CenterContainer/VBoxContainer/Play"
 
 onready var _network_controller: Node = $"../".find_node("NetworkController")
+onready var _peer_discovery_controller: Node = $"../".find_node("PeerDiscoveryController")
 
 
 func _on_host_button_pressed():
-	_network_controller.create_server()
+	_peer_discovery_controller.close()
+	_network_controller.create_server(31400)
 	store.dispatch(actions.client_set_state(ClientConstants.GAME))
 	store.emit_signal("game_initializing")
 
 
 func _on_join_button_pressed():
-	_network_controller.ip_address = _ip_address_input.text
-	_network_controller.create_client()
+	# _network_controller.ip_address = _ip_address_input.text
+	_peer_discovery_controller.close()
+	_network_controller.create_client(_peer_discovery_controller.get_host_address(), _peer_discovery_controller.get_host_port())
 	store.dispatch(actions.client_set_state(ClientConstants.GAME))
 	store.emit_signal("game_initializing")
 
