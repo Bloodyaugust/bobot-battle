@@ -225,3 +225,5 @@ margin_bottom = 262.0
 text = "127.0.0.1"
 
 [node name="Game" type="Node" parent="."]
+
+[node name="Lobby" type="CanvasLayer" parent="."]

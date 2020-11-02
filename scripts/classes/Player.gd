@@ -11,7 +11,7 @@ export remotesync var ready: bool
 
 onready var _active_player_indicator: Sprite = $"./ActivePlayerIndicator"
 onready var _map: Node2D = $"../../Map"
-onready var _sprite: Sprite = $"./Sprite"
+onready var _sprite: Sprite = $"./Body"
 
 remotesync var _action_stack: Array = []
 
