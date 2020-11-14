@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://lib/redux/main.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -14,6 +14,8 @@
 [ext_resource path="res://sprites/rotate_left.png" type="Texture" id=12]
 [ext_resource path="res://sprites/rotate_right.png" type="Texture" id=13]
 [ext_resource path="res://sprites/waiting.png" type="Texture" id=14]
+[ext_resource path="res://scripts/controllers/LobbyController.gd" type="Script" id=15]
+[ext_resource path="res://ui_components/Lobby.tscn" type="PackedScene" id=16]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -227,3 +229,99 @@ text = "127.0.0.1"
 [node name="Game" type="Node" parent="."]
 
 [node name="Lobby" type="CanvasLayer" parent="."]
+script = ExtResource( 15 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Lobby"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 11 )
+custom_constants/margin_right = 40
+custom_constants/margin_top = 40
+custom_constants/margin_left = 40
+custom_constants/margin_bottom = 40
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="Lobby/MarginContainer"]
+margin_left = 40.0
+margin_top = 40.0
+margin_right = 984.0
+margin_bottom = 560.0
+
+[node name="PanelContainer" type="PanelContainer" parent="Lobby/MarginContainer/CenterContainer"]
+margin_left = 220.0
+margin_top = 123.0
+margin_right = 724.0
+margin_bottom = 397.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Lobby/MarginContainer/CenterContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 497.0
+margin_bottom = 267.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 470.0
+margin_bottom = 240.0
+custom_constants/separation = 20
+
+[node name="Actions" type="VBoxContainer" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer"]
+margin_right = 118.0
+margin_bottom = 220.0
+custom_constants/separation = 20
+
+[node name="Join" type="Button" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/Actions"]
+margin_right = 118.0
+margin_bottom = 42.7363
+text = "Join"
+
+[node name="Direct Join" type="Button" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/Actions"]
+margin_top = 62.0
+margin_right = 118.638
+margin_bottom = 104.736
+text = "Direct Join"
+
+[node name="IPAddress" type="LineEdit" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/Actions"]
+margin_top = 124.0
+margin_right = 118.0
+margin_bottom = 158.0
+text = "127.0.0.1"
+
+[node name="Main Menu" type="Button" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/Actions"]
+margin_top = 178.0
+margin_right = 118.0
+margin_bottom = 220.736
+text = "Main Menu"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer"]
+margin_left = 138.0
+margin_right = 450.0
+margin_bottom = 220.0
+scroll_horizontal_enabled = false
+
+[node name="Lobbies" type="VBoxContainer" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/ScrollContainer"]
+margin_right = 300.0
+margin_bottom = 275.0
+rect_min_size = Vector2( 300, 0 )
+custom_constants/separation = 5
+
+[node name="Lobby" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/ScrollContainer/Lobbies" instance=ExtResource( 16 )]
+
+[node name="Lobby2" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/ScrollContainer/Lobbies" instance=ExtResource( 16 )]
+margin_top = 70.0
+margin_bottom = 135.0
+
+[node name="Lobby3" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/ScrollContainer/Lobbies" instance=ExtResource( 16 )]
+margin_top = 140.0
+margin_bottom = 205.0
+
+[node name="Lobby4" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/ScrollContainer/Lobbies" instance=ExtResource( 16 )]
+margin_top = 210.0
+margin_bottom = 275.0
