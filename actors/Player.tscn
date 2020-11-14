@@ -1,10 +1,24 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://sprites/robot.png" type="Texture" id=1]
 [ext_resource path="res://scripts/classes/Player.gd" type="Script" id=2]
 [ext_resource path="res://sprites/active_player_indicator.png" type="Texture" id=3]
 [ext_resource path="res://scripts/behaviors/sin_scale.gd" type="Script" id=4]
 [ext_resource path="res://sprites/tankDark_barrel2_outline.png" type="Texture" id=5]
+[ext_resource path="res://sprites/shot_effect5.png" type="Texture" id=6]
+[ext_resource path="res://sprites/shot_effect3.png" type="Texture" id=7]
+[ext_resource path="res://sprites/shot_effect4.png" type="Texture" id=8]
+[ext_resource path="res://sprites/shot_effect1.png" type="Texture" id=9]
+[ext_resource path="res://sprites/shot_effect2.png" type="Texture" id=10]
+[ext_resource path="res://sprites/shot_effect6.png" type="Texture" id=11]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 6 ), ExtResource( 11 ) ],
+"loop": false,
+"name": "default",
+"speed": 20.0
+} ]
 
 [node name="Player" type="Node2D" groups=[
 "player",
@@ -28,5 +42,8 @@ texture = ExtResource( 1 )
 position = Vector2( -5.6753, 0.470474 )
 texture = ExtResource( 5 )
 
-[node name="FirePoint" type="Node2D" parent="."]
-position = Vector2( 9.34387, 0.500565 )
+[node name="FireAnimation" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 8.89861, 1.1123 )
+frames = SubResource( 1 )
+frame = 1

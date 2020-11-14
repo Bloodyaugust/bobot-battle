@@ -10,6 +10,7 @@ export var is_local_player: bool
 export remotesync var ready: bool
 
 onready var _active_player_indicator: Sprite = $"./ActivePlayerIndicator"
+onready var _fire_animation: AnimatedSprite = $"./FireAnimation"
 onready var _map: Node2D = $"../../Map"
 onready var _sprite: Sprite = $"./Body"
 
@@ -43,6 +44,11 @@ func get_action_stack() -> Array:
 
 func get_rect() -> Rect2:
 	return Rect2(position - Vector2(16, 16), Vector2(32, 32))
+
+
+func _on_fire_animation_finished() -> void:
+	_fire_animation.hide()
+	_fire_animation.frame = 0
 
 
 func process_action(index: int) -> String:
@@ -84,6 +90,9 @@ func _fire() -> String:
 	var _fire_string: String = ""
 	var _players: Array = get_tree().get_nodes_in_group("player")
 	var _testing_point: Vector2 = position + Vector2(PlayerActions.MOVE_DISTANCE, 0).rotated(rotation)
+
+	_fire_animation.show()
+	_fire_animation.play()
 	
 	while _map.valid_for_move(_testing_point):
 		for _player in _players:
@@ -129,6 +138,8 @@ func _on_store_changed(name, state):
 
 
 func _ready():
+	_fire_animation.connect("animation_finished", self, "_on_fire_animation_finished")
+
 	if is_local_player:
 		store.subscribe(self, "_on_store_changed")
 		_active_player_indicator.visible = true
