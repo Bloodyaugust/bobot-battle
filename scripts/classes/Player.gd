@@ -9,6 +9,8 @@ export var id: int
 export var is_local_player: bool
 export remotesync var ready: bool
 
+export var _shot_hit_effect: PackedScene
+
 onready var _active_player_indicator: Sprite = $"./ActivePlayerIndicator"
 onready var _fire_animation: AnimatedSprite = $"./FireAnimation"
 onready var _map: Node2D = $"../../Map"
@@ -90,6 +92,7 @@ func _fire() -> String:
 	var _fire_string: String = ""
 	var _players: Array = get_tree().get_nodes_in_group("player")
 	var _testing_point: Vector2 = position + Vector2(PlayerActions.MOVE_DISTANCE, 0).rotated(rotation)
+	var _new_hit_effect: Node2D = _shot_hit_effect.instance()
 
 	_fire_animation.show()
 	_fire_animation.play()
@@ -98,9 +101,15 @@ func _fire() -> String:
 		for _player in _players:
 			if _player.get_rect().has_point(_testing_point):
 				_player.damage(1)
+				_new_hit_effect.position = _testing_point
+				get_tree().get_root().add_child(_new_hit_effect)
 				return "FIRE-{rotation}-HIT{id}".format({"rotation": rotation_degrees, "id": _player.id})
 
 		_testing_point += Vector2(PlayerActions.MOVE_DISTANCE, 0).rotated(rotation)
+
+	_new_hit_effect.position = _testing_point
+
+	get_tree().get_root().add_child(_new_hit_effect)
 
 	return "MISS-{rotation}".format({"rotation": rotation_degrees})
 

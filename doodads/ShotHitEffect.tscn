@@ -12,7 +12,7 @@
 [ext_resource path="res://sprites/explosion2.png" type="Texture" id=10]
 [ext_resource path="res://scripts/behaviors/ShotHitEffect.gd" type="Script" id=11]
 
-[sub_resource type="SpriteFrames" id=2]
+[sub_resource type="SpriteFrames" id=1]
 animations = [ {
 "frames": [ ExtResource( 2 ), ExtResource( 7 ), ExtResource( 4 ), ExtResource( 9 ), ExtResource( 8 ) ],
 "loop": false,
@@ -20,7 +20,7 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[sub_resource type="SpriteFrames" id=1]
+[sub_resource type="SpriteFrames" id=2]
 animations = [ {
 "frames": [ ExtResource( 5 ), ExtResource( 10 ), ExtResource( 6 ), ExtResource( 1 ), ExtResource( 3 ) ],
 "loop": false,
@@ -29,14 +29,13 @@ animations = [ {
 } ]
 
 [node name="ShotHitEffect" type="Node2D"]
-position = Vector2( 536.321, 301.124 )
 script = ExtResource( 11 )
 
 [node name="Smoke" type="AnimatedSprite" parent="."]
-frames = SubResource( 2 )
+frames = SubResource( 1 )
 
 [node name="Explosion" type="AnimatedSprite" parent="."]
-frames = SubResource( 1 )
+frames = SubResource( 2 )
 
 [node name="SmokeStartTimer" type="Timer" parent="."]
 wait_time = 0.1
