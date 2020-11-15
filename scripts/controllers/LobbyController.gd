@@ -14,6 +14,7 @@ onready var _ip_address_input: LineEdit = _actions_container.get_node("./IPAddre
 onready var _main_menu_button: Button = _actions_container.get_node("./Main Menu")
 
 var _lobby_data: Array = []
+var _lobby_server_root: String = "http://localhost:3000/"
 var _selected_lobby
 
 
@@ -49,6 +50,12 @@ func _on_lobby_data_updated():
 
 	GDUtil.queue_free_children(_lobbies_container)
 
+	if _lobby_data.size() == 0:
+		var _loading_label = Label.new()
+
+		_loading_label.text = "Loading Lobbies..."
+		_lobbies_container.add_child(_loading_label)
+
 	for _lobby in _lobby_data:
 		var _new_lobby_component = lobby_component.instance()
 
@@ -68,13 +75,17 @@ func _on_lobby_data_updated():
 
 
 func _on_lobby_timer_timeout():
-	_lobby_updater.request("http://localhost:3000/")
+	_lobby_updater.request(_lobby_server_root)
 
 
 func _on_lobby_updater_request_completed(result, response_code, headers, body):
-	var _json_response = JSON.parse(body.get_string_from_utf8()).result
+	if result == 0 && response_code == 200:
+		var _json_response = JSON.parse(body.get_string_from_utf8()).result
 
-	_lobby_data = _json_response
+		_lobby_data = _json_response if _json_response else []
+	else:
+		_lobby_data = []
+
 	_on_lobby_data_updated()
 
 
@@ -95,6 +106,9 @@ func _on_store_updated(name, state):
 
 
 func _ready():
+	if OS.has_feature("standalone"):
+		_lobby_server_root = "http://192.81.135.83/"
+
 	_direct_join_button.connect("pressed", self, "_on_direct_join_button_pressed")
 	_join_button.connect("pressed", self, "_on_join_button_pressed")
 	_lobby_timer.connect("timeout", self, "_on_lobby_timer_timeout")
