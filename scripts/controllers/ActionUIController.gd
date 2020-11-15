@@ -91,10 +91,10 @@ func _on_ready_button_pressed():
 func _on_store_changed(name, state):
 	match name:
 		"client":
-			if state["state"] == ClientConstants.MENU:
-				offset.y = 2000
-			else:
+			if state["state"] == ClientConstants.GAME:
 				offset.y = 0
+			else:
+				offset.y = 2000
 
 		"game":
 			_game_state_label.text = state["state"]

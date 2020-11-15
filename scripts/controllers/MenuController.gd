@@ -15,9 +15,7 @@ func _on_host_button_pressed():
 
 
 func _on_join_button_pressed():
-	_network_controller.create_client(_ip_address_input.text, 31400)
-	store.dispatch(actions.client_set_state(ClientConstants.GAME))
-	store.emit_signal("game_initializing")
+	store.dispatch(actions.client_set_state(ClientConstants.LOBBY))
 
 
 func _on_play_button_pressed():
@@ -28,10 +26,10 @@ func _on_play_button_pressed():
 func _on_store_updated(name, state):
 	match name:
 		"client":
-			if state["state"] == ClientConstants.GAME:
-				offset.y = 2000
-			else:
+			if state["state"] == ClientConstants.MENU:
 				offset.y = 0
+			else:
+				offset.y = 2000
 
 
 func _ready():
