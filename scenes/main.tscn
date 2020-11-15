@@ -335,7 +335,7 @@ wait_time = 5.0
 script = ExtResource( 17 )
 
 [node name="MarginContainer" type="MarginContainer" parent="HostInfo"]
-anchor_right = 0.4
+anchor_right = 0.2
 anchor_bottom = 0.2
 size_flags_horizontal = 2
 size_flags_vertical = 2
@@ -348,20 +348,40 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="PanelContainer" type="PanelContainer" parent="HostInfo/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 204.0
+margin_bottom = 120.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="VBoxContainer" type="VBoxContainer" parent="HostInfo/MarginContainer"]
 margin_left = 20.0
 margin_top = 20.0
-margin_right = 409.0
+margin_right = 204.0
 margin_bottom = 120.0
 custom_constants/separation = 10
+alignment = 1
 
 [node name="Game Name" type="Label" parent="HostInfo/MarginContainer/VBoxContainer"]
-margin_right = 389.0
-margin_bottom = 24.0
+margin_top = 21.0
+margin_right = 184.0
+margin_bottom = 45.0
 text = "Game Name: ABCD"
+align = 1
 
 [node name="Players" type="Label" parent="HostInfo/MarginContainer/VBoxContainer"]
-margin_top = 34.0
-margin_right = 389.0
-margin_bottom = 58.0
+margin_top = 55.0
+margin_right = 184.0
+margin_bottom = 79.0
 text = "Players: 0/10"
+align = 1
+
+[node name="Lobby Creator" type="HTTPRequest" parent="HostInfo"]
+
+[node name="Lobby Keepalive" type="HTTPRequest" parent="HostInfo"]
+
+[node name="Lobby Keepalive Timer" type="Timer" parent="HostInfo"]
+wait_time = 15.0
