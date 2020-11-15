@@ -185,36 +185,42 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CenterContainer" type="CenterContainer" parent="Menu/MarginContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Menu/MarginContainer"]
 margin_right = 204.0
 margin_bottom = 360.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Menu/MarginContainer/CenterContainer"]
-margin_left = 38.0
-margin_top = 86.0
-margin_right = 166.0
-margin_bottom = 274.0
+[node name="CenterContainer" type="CenterContainer" parent="Menu/MarginContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 197.0
+margin_bottom = 353.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/MarginContainer/PanelContainer/CenterContainer"]
+margin_left = 31.0
+margin_top = 79.0
+margin_right = 159.0
+margin_bottom = 267.0
 custom_constants/separation = 40
 
-[node name="Label" type="Label" parent="Menu/MarginContainer/CenterContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Menu/MarginContainer/PanelContainer/CenterContainer/VBoxContainer"]
 margin_right = 128.0
 margin_bottom = 24.0
 text = "Bobot Battle"
 
-[node name="Play" type="Button" parent="Menu/MarginContainer/CenterContainer/VBoxContainer"]
+[node name="Play" type="Button" parent="Menu/MarginContainer/PanelContainer/CenterContainer/VBoxContainer"]
 visible = false
 margin_top = 64.0
 margin_right = 128.0
 margin_bottom = 106.736
 text = "Play"
 
-[node name="Host" type="Button" parent="Menu/MarginContainer/CenterContainer/VBoxContainer"]
+[node name="Host" type="Button" parent="Menu/MarginContainer/PanelContainer/CenterContainer/VBoxContainer"]
 margin_top = 64.0
 margin_right = 128.0
 margin_bottom = 106.736
 text = "Host"
 
-[node name="Join" type="Button" parent="Menu/MarginContainer/CenterContainer/VBoxContainer"]
+[node name="Join" type="Button" parent="Menu/MarginContainer/PanelContainer/CenterContainer/VBoxContainer"]
 margin_top = 146.0
 margin_right = 128.0
 margin_bottom = 188.736

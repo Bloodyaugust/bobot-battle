@@ -1,8 +1,8 @@
 extends CanvasLayer
 
-onready var _host_button: Button = $"./MarginContainer/CenterContainer/VBoxContainer/Host"
-onready var _join_button: Button = $"./MarginContainer/CenterContainer/VBoxContainer/Join"
-onready var _play_button: Button = $"./MarginContainer/CenterContainer/VBoxContainer/Play"
+onready var _host_button: Button = $"./MarginContainer/PanelContainer/CenterContainer/VBoxContainer/Host"
+onready var _join_button: Button = $"./MarginContainer/PanelContainer/CenterContainer/VBoxContainer/Join"
+onready var _play_button: Button = $"./MarginContainer/PanelContainer/CenterContainer/VBoxContainer/Play"
 
 onready var _network_controller: Node = $"../".find_node("NetworkController")
 
