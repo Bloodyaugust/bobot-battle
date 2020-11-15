@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://lib/redux/main.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -16,6 +16,7 @@
 [ext_resource path="res://sprites/waiting.png" type="Texture" id=14]
 [ext_resource path="res://scripts/controllers/LobbyController.gd" type="Script" id=15]
 [ext_resource path="res://ui_components/Lobby.tscn" type="PackedScene" id=16]
+[ext_resource path="res://scripts/controllers/HostInfoController.gd" type="Script" id=17]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -329,3 +330,38 @@ custom_constants/separation = 5
 
 [node name="Get Lobbies Timer" type="Timer" parent="Lobby"]
 wait_time = 5.0
+
+[node name="HostInfo" type="CanvasLayer" parent="."]
+script = ExtResource( 17 )
+
+[node name="MarginContainer" type="MarginContainer" parent="HostInfo"]
+anchor_right = 0.4
+anchor_bottom = 0.2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme = ExtResource( 11 )
+custom_constants/margin_right = 0
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HostInfo/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 409.0
+margin_bottom = 120.0
+custom_constants/separation = 10
+
+[node name="Game Name" type="Label" parent="HostInfo/MarginContainer/VBoxContainer"]
+margin_right = 389.0
+margin_bottom = 24.0
+text = "Game Name: ABCD"
+
+[node name="Players" type="Label" parent="HostInfo/MarginContainer/VBoxContainer"]
+margin_top = 34.0
+margin_right = 389.0
+margin_bottom = 58.0
+text = "Players: 0/10"
