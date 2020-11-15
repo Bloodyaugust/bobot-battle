@@ -224,6 +224,7 @@ text = "Join"
 
 [node name="Lobby" type="CanvasLayer" parent="."]
 script = ExtResource( 15 )
+lobby_component = ExtResource( 16 )
 
 [node name="MarginContainer" type="MarginContainer" parent="Lobby"]
 anchor_right = 1.0
@@ -274,6 +275,7 @@ custom_constants/separation = 20
 [node name="Join" type="Button" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/Actions"]
 margin_right = 118.0
 margin_bottom = 42.7363
+disabled = true
 text = "Join"
 
 [node name="Direct Join" type="Button" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/Actions"]
