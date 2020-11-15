@@ -22,8 +22,7 @@ func _on_direct_join_button_pressed():
 
 
 func _on_join_button_pressed():
-	# _network_controller.create_client(_ip_address_input.text, 31400)
-	# TODO: Get selected lobby IP
+	_network_controller.create_client(_selected_lobby.host, 31400)
 	store.dispatch(actions.client_set_state(ClientConstants.GAME))
 	store.emit_signal("game_initializing")
 

@@ -1,7 +1,6 @@
 extends CanvasLayer
 
 onready var _host_button: Button = $"./MarginContainer/CenterContainer/VBoxContainer/Host"
-onready var _ip_address_input: LineEdit = $"./MarginContainer/CenterContainer/VBoxContainer/IPAddress"
 onready var _join_button: Button = $"./MarginContainer/CenterContainer/VBoxContainer/Join"
 onready var _play_button: Button = $"./MarginContainer/CenterContainer/VBoxContainer/Play"
 
