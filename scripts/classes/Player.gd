@@ -153,3 +153,5 @@ func _ready():
 		store.subscribe(self, "_on_store_changed")
 		_active_player_indicator.visible = true
 		_sprite.modulate = Color(0.521569, 0.956863, 0.486275)
+
+		get_tree().get_root().find_node("GameCamera", true, false).set_target(self)
