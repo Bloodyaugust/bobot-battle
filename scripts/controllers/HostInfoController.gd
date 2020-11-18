@@ -46,7 +46,7 @@ func _on_network_peer_disconnected(id: int):
 
 
 func _on_server_created():
-	_lobby_creator.request(ClientConstants.LOBBY_SERVER_ROOT + "new?host=127.0.0.1")
+	_lobby_creator.request(ClientConstants.LOBBY_SERVER_ROOT + "new")
 
 
 func _on_store_updated(name, state):
