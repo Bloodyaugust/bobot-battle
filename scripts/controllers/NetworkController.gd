@@ -20,8 +20,6 @@ func create_client(address, port):
 	get_tree().set_network_peer(_peer)
 	emit_signal("client_created")
 
-	_localhost_peer.listen(ClientConstants.LOCALHOST_PORT)
-
 
 func create_server(port):
 	_peer.create_server(port, max_clients)
@@ -40,6 +38,15 @@ func get_localhost_game_address(name: String) -> String:
 
 func _on_network_peer_connected(id: int):
 	print("Client ID: {id} connected from {ip}:{port}".format({"id": id, "ip": _peer.get_peer_address(id), "port": _peer.get_peer_port(id)}))
+
+
+func _on_store_updated(name, state):
+	match name:
+		"client":
+			if state["state"] == ClientConstants.LOBBY:
+				_localhost_peer.listen(ClientConstants.LOCALHOST_PORT)
+			else:
+				_localhost_peer.close()
 
 
 func _process(delta):
@@ -61,6 +68,7 @@ func _process(delta):
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_on_network_peer_connected")
+	store.subscribe(self, "_on_store_updated")
 
 	if OS.has_feature("Server"):
 		create_server(31400)

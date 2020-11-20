@@ -27,7 +27,7 @@ func _on_join_button_pressed():
 	var _local_address = _network_controller.get_localhost_game_address(_selected_lobby.name)
 	var _connecting_address = _local_address if _local_address != "" else _selected_lobby.host
 
-	_network_controller.create_client(_selected_lobby.host, 31400)
+	_network_controller.create_client(_connecting_address, 31400)
 	store.dispatch(actions.client_set_state(ClientConstants.GAME))
 	store.emit_signal("game_initializing")
 
@@ -81,6 +81,7 @@ func _on_lobby_timer_timeout():
 
 
 func _on_lobby_updater_request_completed(result, response_code, headers, body):
+	print(body.get_string_from_utf8())
 	if result == 0 && response_code == 200:
 		var _json_response = JSON.parse(body.get_string_from_utf8()).result
 
