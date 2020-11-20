@@ -8,6 +8,14 @@ onready var _network_controller: Node = get_tree().get_root().find_node("Network
 onready var _players_label: Label = find_node("Players")
 
 var _game_lobby = {}
+var _localhost_address: String = ""
+
+
+func get_localhost_info() -> Dictionary:
+	return {
+		"name": _game_lobby.name if _game_lobby.has("name") else "",
+		"address": _localhost_address
+	}
 
 
 func _on_lobby_creator_request_completed(result, response_code, headers, body):
@@ -62,6 +70,17 @@ func _on_store_updated(name, state):
 
 
 func _ready():
+	var _local_interfaces = IP.get_local_interfaces()
+
+	for _interface in _local_interfaces:
+		if _localhost_address != "":
+			break
+
+		for _address in _interface.addresses:
+			if "192." in _address:
+				_localhost_address = _address
+				break
+
 	_lobby_creator.connect("request_completed", self, "_on_lobby_creator_request_completed")
 	_lobby_keepalive.connect("request_completed", self, "_on_lobby_keepalive_request_completed")
 	_lobby_keepalive_timer.connect("timeout", self, "_on_lobby_keepalive_timer_timeout")

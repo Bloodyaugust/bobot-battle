@@ -24,6 +24,9 @@ func _on_direct_join_button_pressed():
 
 
 func _on_join_button_pressed():
+	var _local_address = _network_controller.get_localhost_game_address(_selected_lobby.name)
+	var _connecting_address = _local_address if _local_address != "" else _selected_lobby.host
+
 	_network_controller.create_client(_selected_lobby.host, 31400)
 	store.dispatch(actions.client_set_state(ClientConstants.GAME))
 	store.emit_signal("game_initializing")
