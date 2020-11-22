@@ -259,15 +259,15 @@ margin_right = 984.0
 margin_bottom = 560.0
 
 [node name="PanelContainer" type="PanelContainer" parent="Lobby/MarginContainer/CenterContainer"]
-margin_left = 226.0
+margin_left = 215.0
 margin_top = 123.0
-margin_right = 718.0
+margin_right = 729.0
 margin_bottom = 397.0
 
 [node name="MarginContainer" type="MarginContainer" parent="Lobby/MarginContainer/CenterContainer/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 485.0
+margin_right = 507.0
 margin_bottom = 267.0
 custom_constants/margin_right = 20
 custom_constants/margin_top = 20
@@ -277,42 +277,44 @@ custom_constants/margin_bottom = 20
 [node name="HBoxContainer" type="HBoxContainer" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer"]
 margin_left = 20.0
 margin_top = 20.0
-margin_right = 458.0
+margin_right = 480.0
 margin_bottom = 240.0
 custom_constants/separation = 20
 
 [node name="Actions" type="VBoxContainer" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer"]
-margin_right = 118.0
+margin_right = 140.0
 margin_bottom = 220.0
+rect_min_size = Vector2( 140, 0 )
 custom_constants/separation = 20
 
 [node name="Join" type="Button" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/Actions"]
-margin_right = 118.0
+margin_right = 140.0
 margin_bottom = 42.7363
 disabled = true
 text = "Join"
 
-[node name="Direct Join" type="Button" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/Actions"]
+[node name="Direct Join Lobby" type="LineEdit" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/Actions"]
 margin_top = 62.0
-margin_right = 118.638
-margin_bottom = 104.736
-text = "Direct Join"
+margin_right = 140.0
+margin_bottom = 96.0
+max_length = 4
+placeholder_text = "Lobby Name"
 
-[node name="IPAddress" type="LineEdit" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/Actions"]
-margin_top = 124.0
-margin_right = 118.0
-margin_bottom = 158.0
-text = "127.0.0.1"
+[node name="Direct Join" type="Button" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/Actions"]
+margin_top = 116.0
+margin_right = 140.0
+margin_bottom = 158.736
+text = "Direct Join"
 
 [node name="Main Menu" type="Button" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/Actions"]
 margin_top = 178.0
-margin_right = 118.0
+margin_right = 140.0
 margin_bottom = 220.736
 text = "Main Menu"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer"]
-margin_left = 138.0
-margin_right = 438.0
+margin_left = 160.0
+margin_right = 460.0
 margin_bottom = 220.0
 
 [node name="Label" type="Label" parent="Lobby/MarginContainer/CenterContainer/PanelContainer/MarginContainer/HBoxContainer/VBoxContainer"]
@@ -337,6 +339,8 @@ custom_constants/separation = 5
 
 [node name="Get Lobbies Timer" type="Timer" parent="Lobby"]
 wait_time = 5.0
+
+[node name="Direct Join Requester" type="HTTPRequest" parent="Lobby"]
 
 [node name="HostInfo" type="CanvasLayer" parent="."]
 script = ExtResource( 17 )

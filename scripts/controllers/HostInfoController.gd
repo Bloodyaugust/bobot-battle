@@ -46,11 +46,11 @@ func _on_lobby_keepalive_timer_timeout():
 
 
 func _on_network_peer_connected(id: int):
-	_players_label.text = "Players: {players}/{max_players}".format({"players": get_tree().get_network_connected_peers().size(), "max_players": _network_controller.max_clients})
+	_players_label.text = "Players: {players}/{max_players}".format({"players": get_tree().get_network_connected_peers().size() + 1, "max_players": _network_controller.max_clients})
 
 
 func _on_network_peer_disconnected(id: int):
-	_players_label.text = "Players: {players}/{max_players}".format({"players": get_tree().get_network_connected_peers().size(), "max_players": _network_controller.max_clients})
+	_players_label.text = "Players: {players}/{max_players}".format({"players": get_tree().get_network_connected_peers().size() + 1, "max_players": _network_controller.max_clients})
 
 
 func _on_server_created():
@@ -64,7 +64,7 @@ func _on_store_updated(name, state):
 				offset.y = 0
 
 				_game_name_label.text = "Game Name: {name}".format(_game_lobby)
-				_players_label.text = "Players: {players}/{max_players}".format({"players": get_tree().get_network_connected_peers().size(), "max_players": _network_controller.max_clients})
+				_players_label.text = "Players: {players}/{max_players}".format({"players": get_tree().get_network_connected_peers().size() + 1, "max_players": _network_controller.max_clients})
 			else:
 				offset.y = 2000
 

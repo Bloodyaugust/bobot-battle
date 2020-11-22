@@ -3,24 +3,40 @@ extends CanvasLayer
 export var lobby_component: PackedScene
 
 onready var _actions_container: Node = find_node("Actions")
+onready var _direct_join_requester: HTTPRequest = $"./Direct Join Requester"
 onready var _lobbies_container: Node = find_node("Lobbies")
 onready var _lobby_timer: Timer = $"./Get Lobbies Timer"
 onready var _lobby_updater: HTTPRequest = $"./Lobby Updater"
 onready var _network_controller: Node = $"../".find_node("NetworkController")
 
 onready var _direct_join_button: Button = _actions_container.get_node("./Direct Join")
+onready var _direct_join_lobby_input: LineEdit = _actions_container.get_node("./Direct Join Lobby")
 onready var _join_button: Button = _actions_container.get_node("./Join")
-onready var _ip_address_input: LineEdit = _actions_container.get_node("./IPAddress")
 onready var _main_menu_button: Button = _actions_container.get_node("./Main Menu")
 
 var _lobby_data: Array = []
 var _selected_lobby
 
 
+func _on_direct_join_requester_request_completed(result, response_code, headers, body):
+	print(result)
+	print(response_code)
+	print(body.get_string_from_utf8())
+
+	if result == 0 && response_code == 200:
+		var _json_response = JSON.parse(body.get_string_from_utf8()).result
+		var _direct_join_lobby_address = _json_response.host
+
+		_network_controller.create_client(_direct_join_lobby_address, 31400)
+		store.dispatch(actions.client_set_state(ClientConstants.GAME))
+		store.emit_signal("game_initializing")
+		print("Direct joining game")
+	else:
+		print("Failed to join")
+
+
 func _on_direct_join_button_pressed():
-	_network_controller.create_client(_ip_address_input.text, 31400)
-	store.dispatch(actions.client_set_state(ClientConstants.GAME))
-	store.emit_signal("game_initializing")
+	_direct_join_requester.request(ClientConstants.LOBBY_SERVER_ROOT + "lobby/" + _direct_join_lobby_input.text)
 
 
 func _on_join_button_pressed():
@@ -81,7 +97,6 @@ func _on_lobby_timer_timeout():
 
 
 func _on_lobby_updater_request_completed(result, response_code, headers, body):
-	print(body.get_string_from_utf8())
 	if result == 0 && response_code == 200:
 		var _json_response = JSON.parse(body.get_string_from_utf8()).result
 
@@ -110,6 +125,7 @@ func _on_store_updated(name, state):
 
 func _ready():
 	_direct_join_button.connect("pressed", self, "_on_direct_join_button_pressed")
+	_direct_join_requester.connect("request_completed", self, "_on_direct_join_requester_request_completed")
 	_join_button.connect("pressed", self, "_on_join_button_pressed")
 	_lobby_timer.connect("timeout", self, "_on_lobby_timer_timeout")
 	_lobby_updater.connect("request_completed", self, "_on_lobby_updater_request_completed")
