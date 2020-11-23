@@ -51,7 +51,8 @@ func _on_local_player_action_stack_changed():
 		|| (_local_player.ready || store.state()["game"]["state"] == GameStates.RESOLVING)
 	)
 
-	_fire_button.disabled = _local_player_action_stack.has(PlayerActions.FIRE)
+	if !_is_local_player_dead():
+		_fire_button.disabled = _local_player_action_stack.has(PlayerActions.FIRE)
 
 
 func _on_local_player_spawned():
