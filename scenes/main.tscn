@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://lib/redux/main.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://ui_components/Lobby.tscn" type="PackedScene" id=16]
 [ext_resource path="res://scripts/controllers/HostInfoController.gd" type="Script" id=17]
 [ext_resource path="res://scripts/classes/GameCamera.gd" type="Script" id=18]
+[ext_resource path="res://scripts/controllers/SettingsController.gd" type="Script" id=19]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -220,9 +221,9 @@ margin_bottom = 353.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Menu/MarginContainer/PanelContainer/CenterContainer"]
 margin_left = 31.0
-margin_top = 79.0
+margin_top = 38.0
 margin_right = 159.0
-margin_bottom = 267.0
+margin_bottom = 308.0
 custom_constants/separation = 40
 
 [node name="Label" type="Label" parent="Menu/MarginContainer/PanelContainer/CenterContainer/VBoxContainer"]
@@ -248,6 +249,12 @@ margin_top = 146.0
 margin_right = 128.0
 margin_bottom = 188.736
 text = "Join"
+
+[node name="Settings" type="Button" parent="Menu/MarginContainer/PanelContainer/CenterContainer/VBoxContainer"]
+margin_top = 228.0
+margin_right = 128.0
+margin_bottom = 270.736
+text = "Settings"
 
 [node name="Game" type="Node" parent="."]
 
@@ -356,6 +363,95 @@ custom_constants/separation = 5
 wait_time = 5.0
 
 [node name="Direct Join Requester" type="HTTPRequest" parent="Lobby"]
+
+[node name="Settings" type="CanvasLayer" parent="."]
+script = ExtResource( 19 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Settings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 11 )
+custom_constants/margin_right = 40
+custom_constants/margin_top = 40
+custom_constants/margin_left = 40
+custom_constants/margin_bottom = 40
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="Settings/MarginContainer"]
+margin_left = 40.0
+margin_top = 40.0
+margin_right = 984.0
+margin_bottom = 560.0
+
+[node name="PanelContainer" type="PanelContainer" parent="Settings/MarginContainer/CenterContainer"]
+margin_left = 333.0
+margin_top = 132.0
+margin_right = 611.0
+margin_bottom = 388.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Settings/MarginContainer/CenterContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 271.0
+margin_bottom = 249.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Settings/MarginContainer/CenterContainer/PanelContainer/MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 244.0
+margin_bottom = 222.0
+rect_min_size = Vector2( 140, 0 )
+custom_constants/separation = 20
+
+[node name="Label" type="Label" parent="Settings/MarginContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+margin_right = 224.0
+margin_bottom = 24.0
+text = "Settings"
+align = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Settings/MarginContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 44.0
+margin_right = 224.0
+margin_bottom = 78.0
+
+[node name="Label" type="Label" parent="Settings/MarginContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_top = 5.0
+margin_right = 60.0
+margin_bottom = 29.0
+text = "Name: "
+
+[node name="Player Name" type="LineEdit" parent="Settings/MarginContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 64.0
+margin_right = 224.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 160, 0 )
+text = "Player"
+max_length = 14
+
+[node name="Save" type="Button" parent="Settings/MarginContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 98.0
+margin_right = 224.0
+margin_bottom = 140.736
+text = "Save"
+
+[node name="Main Menu" type="Button" parent="Settings/MarginContainer/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 160.0
+margin_right = 224.0
+margin_bottom = 202.736
+text = "Main Menu"
+
+[node name="Lobby Updater" type="HTTPRequest" parent="Settings"]
+
+[node name="Get Lobbies Timer" type="Timer" parent="Settings"]
+wait_time = 5.0
+
+[node name="Direct Join Requester" type="HTTPRequest" parent="Settings"]
 
 [node name="HostInfo" type="CanvasLayer" parent="."]
 script = ExtResource( 17 )
