@@ -9,7 +9,7 @@ var _player: Node2D
 
 func set_player(player: Node2D):
 	_player = player
-	_label.text = str(_player.id)
+	_label.text = str(_player.player_name)
 
 
 func _process(_delta):

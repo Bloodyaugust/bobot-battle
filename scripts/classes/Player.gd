@@ -7,16 +7,25 @@ export var dead: bool = false
 export var health: int = 2
 export var id: int
 export var is_local_player: bool
+export remotesync var player_name: String
 export remotesync var ready: bool
+
+var player_name_node: Node2D
 
 export var _shot_hit_effect: PackedScene
 
 onready var _active_player_indicator: Sprite = $"./ActivePlayerIndicator"
 onready var _fire_animation: AnimatedSprite = $"./FireAnimation"
 onready var _map: Node2D = $"../../Map"
+onready var _settings_controller: CanvasLayer = $"/root/Node2D/Settings"
 onready var _sprite: Sprite = $"./Body"
 
 remotesync var _action_stack: Array = []
+
+
+remotesync func player_info_updated():
+	player_name_node.set_player(self)
+
 
 func add_action(action: String) -> bool:
 	if _action_stack.size() < PlayerActions.MAX_ACTIONS_QUEUED:
@@ -136,6 +145,12 @@ func _move(to: Vector2):
 	position = to
 
 
+func _on_network_peer_connected(id: int):
+	if is_local_player:
+		rset_id(id, "player_name", player_name)
+		rpc_id(id, "player_info_updated")
+
+
 func _on_store_changed(name, state):
 	match name:
 		"game":
@@ -148,6 +163,7 @@ func _on_store_changed(name, state):
 
 func _ready():
 	_fire_animation.connect("animation_finished", self, "_on_fire_animation_finished")
+	get_tree().connect("network_peer_connected", self, "_on_network_peer_connected")
 
 	if is_local_player:
 		store.subscribe(self, "_on_store_changed")
@@ -155,3 +171,6 @@ func _ready():
 		_sprite.modulate = Color(0.521569, 0.956863, 0.486275)
 
 		get_tree().get_root().find_node("GameCamera", true, false).set_target(self)
+
+		rset("player_name", _settings_controller.get_player_settings().name)
+		rpc("player_info_updated")

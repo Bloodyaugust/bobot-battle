@@ -41,11 +41,10 @@ remotesync func spawn_player(id: int):
 	_player.is_local_player = get_tree().get_network_unique_id() == id
 	_player.position = _map.spawn_points[_players.size()].position
 	_player.name = str(id)
+	_player.player_name_node = _player_name
 
-	_players_node.add_child(_player)
 	_player_names_node.add_child(_player_name)
-
-	_player_name.set_player(_player)
+	_players_node.add_child(_player)
 
 	if _player.is_local_player:
 		store.emit_signal("local_player_spawned")
