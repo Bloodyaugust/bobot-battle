@@ -27,7 +27,7 @@ func _on_direct_join_requester_request_completed(result, response_code, headers,
 		var _json_response = JSON.parse(body.get_string_from_utf8()).result
 		var _direct_join_lobby_address = _json_response.host
 
-		_network_controller.create_client(_direct_join_lobby_address, 31400)
+		_network_controller.create_client(String.replace("::ffff:", _direct_join_lobby_address), 31400)
 		store.dispatch(actions.client_set_state(ClientConstants.GAME))
 		store.emit_signal("game_initializing")
 		print("Direct joining game")
@@ -43,7 +43,7 @@ func _on_join_button_pressed():
 	var _local_address = _network_controller.get_localhost_game_address(_selected_lobby.name)
 	var _connecting_address = _local_address if _local_address != "" else _selected_lobby.host
 
-	_network_controller.create_client(_connecting_address, 31400)
+	_network_controller.create_client(String.replace("::ffff:", _connecting_address), 31400)
 	store.dispatch(actions.client_set_state(ClientConstants.GAME))
 	store.emit_signal("game_initializing")
 
