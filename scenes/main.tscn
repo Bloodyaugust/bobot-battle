@@ -52,6 +52,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="PanelContainer" type="PanelContainer" parent="ActionUI/EnqueueActionsContainer"]
+self_modulate = Color( 1, 1, 1, 0.752941 )
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 604.0
+margin_bottom = 110.0
+
 [node name="CenterContainer" type="CenterContainer" parent="ActionUI/EnqueueActionsContainer"]
 margin_left = 10.0
 margin_top = 10.0
@@ -98,9 +105,9 @@ expand_icon = true
 
 [node name="QueuedActionsContainer" type="MarginContainer" parent="ActionUI"]
 anchor_left = 0.8
-anchor_top = 0.2
+anchor_top = 0.1
 anchor_right = 1.0
-anchor_bottom = 0.8
+anchor_bottom = 0.9
 grow_vertical = 2
 theme = ExtResource( 11 )
 custom_constants/margin_right = 10
@@ -111,16 +118,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="PanelContainer" type="PanelContainer" parent="ActionUI/QueuedActionsContainer"]
+self_modulate = Color( 1, 1, 1, 0.752941 )
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 194.0
+margin_bottom = 470.0
+
 [node name="CenterContainer" type="CenterContainer" parent="ActionUI/QueuedActionsContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 194.0
-margin_bottom = 444.0
+margin_bottom = 470.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ActionUI/QueuedActionsContainer/CenterContainer"]
 margin_left = 24.0
+margin_top = 13.0
 margin_right = 160.0
-margin_bottom = 434.0
+margin_bottom = 447.0
 custom_constants/separation = 20
 alignment = 1
 
