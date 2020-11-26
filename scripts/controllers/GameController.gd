@@ -28,6 +28,7 @@ remote func simulation_completed(id: int, round_string: String):
 			store.remotesync_dispatch(actions.game_set_state(GameStates.OVER))
 		else:
 			store.remotesync_dispatch(actions.game_set_state(GameStates.CHOOSING))
+
 		_completed_simulations.clear()
 		_completed_simulation_strings.clear()
 		
@@ -110,7 +111,7 @@ func _on_store_changed(name, state):
 
 
 func _process(_delta):
-	if get_tree().is_network_server():
+	if !store.state()["game"]["state"] == GameStates.OVER && get_tree().has_network_peer() && get_tree().is_network_server():
 		var _players = get_tree().get_nodes_in_group("player")
 
 		if store.state()["game"]["state"] == GameStates.WAITING:

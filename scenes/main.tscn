@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://lib/redux/main.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -19,6 +19,7 @@
 [ext_resource path="res://scripts/controllers/HostInfoController.gd" type="Script" id=17]
 [ext_resource path="res://scripts/classes/GameCamera.gd" type="Script" id=18]
 [ext_resource path="res://scripts/controllers/SettingsController.gd" type="Script" id=19]
+[ext_resource path="res://scripts/controllers/GameOverController.gd" type="Script" id=20]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -508,3 +509,52 @@ align = 1
 
 [node name="Lobby Keepalive Timer" type="Timer" parent="HostInfo"]
 wait_time = 15.0
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+script = ExtResource( 20 )
+
+[node name="MarginContainer" type="MarginContainer" parent="GameOver"]
+anchor_left = 0.4
+anchor_top = 0.2
+anchor_right = 0.6
+anchor_bottom = 0.8
+theme = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="GameOver/MarginContainer"]
+margin_right = 204.0
+margin_bottom = 360.0
+
+[node name="CenterContainer" type="CenterContainer" parent="GameOver/MarginContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 197.0
+margin_bottom = 353.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOver/MarginContainer/PanelContainer/CenterContainer"]
+margin_left = 1.0
+margin_top = 88.0
+margin_right = 189.0
+margin_bottom = 258.0
+custom_constants/separation = 40
+
+[node name="Label" type="Label" parent="GameOver/MarginContainer/PanelContainer/CenterContainer/VBoxContainer"]
+margin_right = 188.0
+margin_bottom = 24.0
+text = "Game Over!"
+align = 1
+
+[node name="Label2" type="Label" parent="GameOver/MarginContainer/PanelContainer/CenterContainer/VBoxContainer"]
+margin_top = 64.0
+margin_right = 188.0
+margin_bottom = 88.0
+text = "Bloodyaugust won!"
+align = 1
+
+[node name="Menu" type="Button" parent="GameOver/MarginContainer/PanelContainer/CenterContainer/VBoxContainer"]
+margin_top = 128.0
+margin_right = 188.0
+margin_bottom = 170.736
+text = "Menu"

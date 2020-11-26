@@ -53,6 +53,10 @@ func _on_network_peer_disconnected(id: int):
 	_players_label.text = "Players: {players}/{max_players}".format({"players": get_tree().get_network_connected_peers().size() + 1, "max_players": _network_controller.max_clients})
 
 
+func _on_server_closed():
+	_lobby_keepalive_timer.stop()
+
+
 func _on_server_created():
 	_lobby_creator.request(ClientConstants.LOBBY_SERVER_ROOT + "new")
 
@@ -84,6 +88,7 @@ func _ready():
 	_lobby_creator.connect("request_completed", self, "_on_lobby_creator_request_completed")
 	_lobby_keepalive.connect("request_completed", self, "_on_lobby_keepalive_request_completed")
 	_lobby_keepalive_timer.connect("timeout", self, "_on_lobby_keepalive_timer_timeout")
+	_network_controller.connect("server_closed", self, "_on_server_closed")
 	_network_controller.connect("server_created", self, "_on_server_created")
 	get_tree().connect("network_peer_connected", self, "_on_network_peer_connected")
 	get_tree().connect("network_peer_disconnected", self, "_on_network_peer_disconnected")

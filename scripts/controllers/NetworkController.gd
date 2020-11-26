@@ -1,6 +1,7 @@
 extends Node
 
 signal client_created
+signal server_closed
 signal server_created
 
 export var address: String
@@ -24,6 +25,7 @@ func create_client(address, port):
 func create_server(port):
 	_peer.create_server(port, max_clients)
 	get_tree().set_network_peer(_peer)
+	get_tree().refuse_new_network_connections = false
 	emit_signal("server_created")
 
 	_localhost_peer.set_broadcast_enabled(true)
@@ -40,6 +42,14 @@ func _on_network_peer_connected(id: int):
 	print("Client ID: {id} connected from {ip}:{port}".format({"id": id, "ip": _peer.get_peer_address(id), "port": _peer.get_peer_port(id)}))
 
 
+func _on_network_peer_disconnected(id: int):
+	print("Client ID: {id} disconnected".format({"id": id}))
+
+
+func _on_server_disconnected():
+	get_tree().set_network_peer(null)
+
+
 func _on_store_updated(name, state):
 	match name:
 		"client":
@@ -47,6 +57,17 @@ func _on_store_updated(name, state):
 				_localhost_peer.listen(ClientConstants.LOCALHOST_PORT)
 			else:
 				_localhost_peer.close()
+
+				if store.state()["game"]["state"] == GameStates.OVER && get_tree().has_network_peer():
+					if get_tree().is_network_server():
+						_peer.close_connection()
+					elif get_tree().get_network_connected_peers().size() != 0:
+						_peer.close_connection()
+					get_tree().set_network_peer(null)
+		"game":
+			if state["state"] == GameStates.OVER:
+				get_tree().refuse_new_network_connections = true
+				emit_signal("server_closed")
 
 
 func _process(delta):
@@ -68,6 +89,8 @@ func _process(delta):
 
 func _ready():
 	get_tree().connect("network_peer_connected", self, "_on_network_peer_connected")
+	get_tree().connect("network_peer_disconnected", self, "_on_network_peer_disconnected")
+	get_tree().connect("server_disconnected", self, "_on_server_disconnected")
 	store.subscribe(self, "_on_store_updated")
 
 	if OS.has_feature("Server"):

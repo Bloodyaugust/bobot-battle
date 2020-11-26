@@ -26,8 +26,8 @@ func _process(delta):
 			_position_tween_t = clamp(_position_tween_t + delta * move_speed, 0, 1)
 			position = position.linear_interpolate(_target.position, _position_tween_t)
 
-	if _drag_origin:
-		position = _target.position + (_drag_origin - _root.get_mouse_position())
+		if _drag_origin:
+			position = _target.position + (_drag_origin - _root.get_mouse_position())
 
 
 func _unhandled_input(event):
